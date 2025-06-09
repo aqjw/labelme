@@ -143,6 +143,24 @@ def main():
         help="epsilon to find nearest vertex on canvas",
         default=argparse.SUPPRESS,
     )
+    parser.add_argument(
+        "--input-dir",
+        dest="input_dir",
+        help="input directory containing images to annotate",
+        default=argparse.SUPPRESS,
+    )
+    parser.add_argument(
+        "--checked-labels",
+        dest="checked_labels",
+        help="comma separated list of labels OR file containing labels that should be checked by default",
+        default=argparse.SUPPRESS,
+    )
+    parser.add_argument(
+        "--toggle-labels",
+        dest="toggle_labels",
+        help="comma separated list of labels OR file containing labels that can be toggled",
+        default=argparse.SUPPRESS,
+    )
     args = parser.parse_args()
 
     if args.version:
@@ -172,13 +190,37 @@ def main():
         else:
             args.label_flags = yaml.safe_load(args.label_flags)
 
+    if hasattr(args, "checked_labels"):
+        if os.path.isfile(args.checked_labels):
+            with codecs.open(args.checked_labels, "r", encoding="utf-8") as f:
+                args.checked_labels = [line.strip() for line in f if line.strip()]
+        else:
+            args.checked_labels = [
+                line for line in args.checked_labels.split(",") if line
+            ]
+
+    if hasattr(args, "toggle_labels"):
+        if os.path.isfile(args.toggle_labels):
+            with codecs.open(args.toggle_labels, "r", encoding="utf-8") as f:
+                args.toggle_labels = [line.strip() for line in f if line.strip()]
+        else:
+            args.toggle_labels = [
+                line for line in args.toggle_labels.split(",") if line
+            ]
+
     config_from_args = args.__dict__
     config_from_args.pop("version")
     reset_config = config_from_args.pop("reset_config")
     filename = config_from_args.pop("filename")
     output = config_from_args.pop("output")
+    input_dir = config_from_args.pop("input_dir", None)
     config_file_or_yaml = config_from_args.pop("config")
     config = get_config(config_file_or_yaml, config_from_args)
+
+    # Validate input_dir if provided
+    if input_dir and not os.path.isdir(input_dir):
+        logger.error(f"Input directory does not exist: {input_dir}")
+        sys.exit(1)
 
     if not config["labels"] and config["validate_label"]:
         logger.error(
@@ -210,6 +252,7 @@ def main():
         filename=filename,
         output_file=output_file,
         output_dir=output_dir,
+        input_dir=input_dir,
     )
 
     if reset_config:

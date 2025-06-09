@@ -10,12 +10,14 @@ logger_level: info
 flags: null
 label_flags: null
 labels: null
+checked_labels: null
+toggle_labels: null
 file_search: null
 sort_labels: true
 validate_label: null
 
 default_shape_color: [0, 255, 0]
-shape_color: auto  # null, 'auto', 'manual'
+shape_color: auto # null, 'auto', 'manual'
 shift_auto_shape_color: 0
 label_colors: null
 
@@ -29,6 +31,10 @@ shape:
   select_fill_color: [0, 255, 0, 64]
   hvertex_fill_color: [255, 255, 255, 255]
   point_size: 8
+
+# UI settings
+shape_fill_alpha: 128
+max_zoom: 1500
 
 ai:
   default: 'Sam2 (balanced)'

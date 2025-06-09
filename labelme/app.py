@@ -56,6 +56,7 @@ class MainWindow(QtWidgets.QMainWindow):
         output=None,
         output_file=None,
         output_dir=None,
+        input_dir=None,
     ):
         if output is not None:
             logger.warning("argument output is deprecated, use output_file instead")
@@ -159,7 +160,7 @@ class MainWindow(QtWidgets.QMainWindow):
         fileListWidget.setLayout(fileListLayout)
         self.file_dock.setWidget(fileListWidget)
 
-        self.zoomWidget = ZoomWidget()
+        self.zoomWidget = ZoomWidget(max_zoom=self._config.get("max_zoom", 1000))
         self.setAcceptDrops(True)
 
         self.canvas = Canvas(
@@ -863,6 +864,10 @@ class MainWindow(QtWidgets.QMainWindow):
 
         if filename is not None and osp.isdir(filename):
             self.importDirImages(filename, load=False)
+        elif input_dir is not None:
+            # Handle input_dir parameter - open directory for annotation
+            self.importDirImages(input_dir, load=True)
+            self.filename = None
         else:
             self.filename = filename
 
@@ -1294,6 +1299,14 @@ class MainWindow(QtWidgets.QMainWindow):
         else:
             text = "{} ({})".format(shape.label, shape.group_id)
         label_list_item = LabelListWidgetItem(text, shape)
+
+        # Set default visibility based on checked_labels configuration
+        if self._config.get("checked_labels") is not None:
+            # If checked_labels is configured, only check labels that are in the list
+            is_checked = shape.label in self._config["checked_labels"]
+            label_list_item.setCheckState(Qt.Checked if is_checked else Qt.Unchecked)  # type: ignore[attr-defined]
+        # If checked_labels is not configured, use default behavior (checked)
+
         self.labelList.addItem(label_list_item)
         if self.uniqLabelList.findItemByLabel(shape.label) is None:
             item = self.uniqLabelList.createItemFromLabel(shape.label)
@@ -1316,9 +1329,12 @@ class MainWindow(QtWidgets.QMainWindow):
         shape.line_color = QtGui.QColor(r, g, b)
         shape.vertex_fill_color = QtGui.QColor(r, g, b)
         shape.hvertex_fill_color = QtGui.QColor(255, 255, 255)
-        shape.fill_color = QtGui.QColor(r, g, b, 128)
+
+        # Use configurable shape_fill_alpha instead of hardcoded values
+        fill_alpha = self._config.get("shape_fill_alpha", 128)
+        shape.fill_color = QtGui.QColor(r, g, b, fill_alpha)
         shape.select_line_color = QtGui.QColor(255, 255, 255)
-        shape.select_fill_color = QtGui.QColor(r, g, b, 155)
+        shape.select_fill_color = QtGui.QColor(r, g, b, fill_alpha)
 
     def _get_rgb_by_label(self, label):
         if self._config["shape_color"] == "auto":
@@ -1414,9 +1430,11 @@ class MainWindow(QtWidgets.QMainWindow):
                     description=s.description,
                     shape_type=s.shape_type,
                     flags=s.flags,
-                    mask=None
-                    if s.mask is None
-                    else utils.img_arr_to_b64(s.mask.astype(np.uint8)),
+                    mask=(
+                        None
+                        if s.mask is None
+                        else utils.img_arr_to_b64(s.mask.astype(np.uint8))
+                    ),
                 )
             )
             return data
@@ -1621,6 +1639,15 @@ class MainWindow(QtWidgets.QMainWindow):
     def togglePolygons(self, value):
         flag = value
         for item in self.labelList:
+            # Get the shape label for filtering
+            shape = item.shape()
+            label = shape.label
+
+            # If toggle_labels is configured, only toggle labels that are in the list
+            if self._config.get("toggle_labels") is not None:
+                if label not in self._config["toggle_labels"]:
+                    continue  # Skip labels not in toggle_labels list
+
             if value is None:
                 flag = item.checkState() == Qt.Unchecked  # type: ignore[attr-defined]
             item.setCheckState(Qt.Checked if flag else Qt.Unchecked)  # type: ignore[attr-defined]
