@@ -345,7 +345,7 @@ class Canvas(QtWidgets.QWidget):
                 self.prevhShape = self.hShape = shape
                 self.prevhEdge = self.hEdge = index_edge
                 self.overrideCursor(CURSOR_POINT)
-                self.setToolTip(self.tr("ALT + Click to create point"))
+                self.setToolTip(self.tr("Click to create point"))
                 self.setStatusTip(self.toolTip())
                 self.update()
                 break
@@ -456,17 +456,19 @@ class Canvas(QtWidgets.QWidget):
                         self.drawingPolygon.emit(True)
                         self.update()
             elif self.editing():
-                if self.selectedEdge() and ev.modifiers() == QtCore.Qt.AltModifier:  # type: ignore[attr-defined]
-                    self.addPointToEdge()
+                if self.selectedEdge():
+                    # Create new point on edge with simple click, or ALT + click for backward compatibility
+                    if not ev.modifiers() or ev.modifiers() == QtCore.Qt.AltModifier:  # type: ignore[attr-defined]
+                        self.addPointToEdge()
                 elif self.selectedVertex() and ev.modifiers() == (
                     QtCore.Qt.AltModifier | QtCore.Qt.ShiftModifier  # type: ignore[attr-defined]
                 ):
                     self.removeSelectedPoint()
-
-                group_mode = int(ev.modifiers()) == QtCore.Qt.ControlModifier  # type: ignore[attr-defined]
-                self.selectShapePoint(pos, multiple_selection_mode=group_mode)
-                self.prevPoint = pos
-                self.repaint()
+                else:
+                    group_mode = int(ev.modifiers()) == QtCore.Qt.ControlModifier  # type: ignore[attr-defined]
+                    self.selectShapePoint(pos, multiple_selection_mode=group_mode)
+                    self.prevPoint = pos
+                    self.repaint()
         elif ev.button() == QtCore.Qt.RightButton and self.editing():  # type: ignore[attr-defined]
             group_mode = int(ev.modifiers()) == QtCore.Qt.ControlModifier  # type: ignore[attr-defined]
             if not self.selectedShapes or (

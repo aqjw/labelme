@@ -1272,7 +1272,6 @@ class MainWindow(QtWidgets.QMainWindow):
         if currIndex < len(self.imageList):
             filename = self.imageList[currIndex]
             if filename:
-                logger.info(f"File selected from list: {osp.basename(filename)}")
                 self.loadFile(filename)
 
     # React to canvas signals.
