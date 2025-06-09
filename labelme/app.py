@@ -1272,6 +1272,7 @@ class MainWindow(QtWidgets.QMainWindow):
         if currIndex < len(self.imageList):
             filename = self.imageList[currIndex]
             if filename:
+                logger.info(f"File selected from list: {osp.basename(filename)}")
                 self.loadFile(filename)
 
     # React to canvas signals.
@@ -1673,6 +1674,10 @@ class MainWindow(QtWidgets.QMainWindow):
                 self.tr("No such file: <b>%s</b>") % filename,
             )
             return False
+
+        # Log the active file selection
+        logger.info(f"Active file selected: {osp.basename(filename)}")
+
         # assumes same name, but json extension
         self.status(str(self.tr("Loading %s...")) % osp.basename(str(filename)))
         label_file = osp.splitext(filename)[0] + ".json"
@@ -1857,6 +1862,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
     def loadRecent(self, filename):
         if self.mayContinue():
+            logger.info(f"Recent file loaded: {osp.basename(filename)}")
             self.loadFile(filename)
 
     def openPrevImg(self, _value=False):
@@ -1934,6 +1940,7 @@ class MainWindow(QtWidgets.QMainWindow):
         if fileDialog.exec_():
             fileName = fileDialog.selectedFiles()[0]
             if fileName:
+                logger.info(f"File opened via dialog: {osp.basename(fileName)}")
                 self.loadFile(fileName)
 
     def changeOutputDirDialog(self, _value=False):
