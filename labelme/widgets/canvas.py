@@ -878,24 +878,13 @@ class Canvas(QtWidgets.QWidget):
                 self.update()
             elif key == QtCore.Qt.Key_Return and self.canCloseShape():  # type: ignore[attr-defined]
                 self.finalise()
-            elif key == QtCore.Qt.Key_Space and self.createMode == "polygon" and self.prevMovePoint:  # type: ignore[attr-defined]
-                # Add point at current mouse position when Space is pressed during polygon creation
-                if self.current and not self.outOfPixmap(self.prevMovePoint):
-                    self.current.addPoint(self.prevMovePoint)
+            elif key == QtCore.Qt.Key_Space:
+                # Add point to existing shape.
+                if self.current and self.createMode == "polygon":
+                    self.current.addPoint(self.line[1])
                     self.line[0] = self.current[-1]
                     if self.current.isClosed():
                         self.finalise()
-                    else:
-                        self.update()
-                elif not self.current and not self.outOfPixmap(self.prevMovePoint):
-                    # Create new polygon shape
-                    self.current = Shape(shape_type="polygon")
-                    self.current.addPoint(self.prevMovePoint, label=1)
-                    self.line.points = [self.prevMovePoint, self.prevMovePoint]
-                    self.line.point_labels = [1, 1]
-                    self.setHiding()
-                    self.drawingPolygon.emit(True)
-                    self.update()
             elif modifiers == QtCore.Qt.AltModifier:  # type: ignore[attr-defined]
                 self.snapping = False
         elif self.editing():
