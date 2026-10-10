@@ -90,6 +90,9 @@ _AI_CREATE_MODES: Final[tuple[str, ...]] = (
 # exceeds this, regardless of how high the allocation limit is raised.
 _RASTER_MAX_SIDE: Final = 32767
 
+# Флаг страницы, который проставляет скрипт предразметки (false = не проверена).
+_PAGE_CHECKED_FLAG: Final[str] = "checked"
+
 # Keys of the Window State store, shared by the restore, reset, and close paths.
 WINDOW_SIZE_KEY: Final[str] = "window/size"
 WINDOW_POSITION_KEY: Final[str] = "window/position"
@@ -221,6 +224,9 @@ class MainWindow(QtWidgets.QMainWindow):
 
     _text_osam_session: _automation.OsamSession | None = None
     _is_changed: bool = False
+    # Флаг страницы «checked» был false при загрузке и пользователь его не
+    # трогал — при уходе со страницы он проставится автоматически.
+    _page_check_pending: bool = False
     _shape_clipboard: ShapeClipboard
     _zoom_mode: _ZoomMode
     _prev_opened_dir: str | None
@@ -1302,6 +1308,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self._load_flags(flags={}, widget=flag_list)
         flag.setWidget(flag_list)
         flag_list.itemChanged.connect(self.mark_dirty)
+        flag_list.itemChanged.connect(self._on_flag_item_changed)
 
         label_list = LabelListWidget()
         label_list.item_selection_changed.connect(self._label_selection_changed)
@@ -1340,7 +1347,7 @@ class MainWindow(QtWidgets.QMainWindow):
         file_search_error.setWordWrap(True)
         file_search_error.hide()
         file_list = QtWidgets.QListWidget()
-        file_list.currentItemChanged.connect(self._load_selected_image)
+        file_list.currentItemChanged.connect(self._on_file_list_current_changed)
         # Длинные имена сокращаются посередине («начало…конец.jpg») вместо
         # горизонтальной прокрутки; полный путь — в подсказке строки.
         file_list.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
@@ -1636,6 +1643,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self._file_list_image_path = None
         self._label_file_path = None
         self._failed_save_path = None
+        self._page_check_pending = False
         self._status_bar.save.clear()
         self._status_bar.retry.hide()
         self._canvas_widgets.canvas.reset_state()
@@ -1812,6 +1820,57 @@ class MainWindow(QtWidgets.QMainWindow):
             return
         self._docks.file_search_error.hide()
         self._refresh_file_list()
+
+    def _on_file_list_current_changed(
+        self,
+        current_item: QtWidgets.QListWidgetItem | None,
+        previous_item: QtWidgets.QListWidgetItem | None,
+        /,
+    ) -> None:
+        # Смена картинки в File List (next/prev, клик, закладка) — уход со
+        # страницы. Открытие папки грузит первую страницу напрямую, минуя этот
+        # обработчик, поэтому там флаг не проставляется.
+        if current_item is not None:
+            self._check_page_before_leaving()
+        self._load_selected_image(current_item, previous_item)
+
+    def _on_flag_item_changed(self, item: QtWidgets.QListWidgetItem, /) -> None:
+        # Ручное изменение галочки «checked» отменяет авто-проставку: выбор
+        # пользователя важнее.
+        if item.text() == _PAGE_CHECKED_FLAG:
+            self._page_check_pending = False
+
+    def _check_page_before_leaving(self) -> None:
+        # Проставляет флаг страницы «checked» и сохраняет разметку, если флаг
+        # был false с момента загрузки. Сохраняется, даже если фигуры не менялись.
+        if not self._page_check_pending:
+            return
+        self._page_check_pending = False
+        flag_list = self._docks.flag_list
+        item = next(
+            (
+                item
+                for row in range(flag_list.count())
+                if (item := flag_list.item(row)) is not None
+                and item.text() == _PAGE_CHECKED_FLAG
+            ),
+            None,
+        )
+        if item is None or item.checkState() == Qt.CheckState.Checked:
+            return
+        if self._actions.save_auto.isChecked():
+            # mark_dirty (через itemChanged) ставит автосохранение в очередь;
+            # ждём запись, чтобы она не завершилась уже после загрузки новой
+            # страницы.
+            item.setCheckState(Qt.CheckState.Checked)
+            self._wait_for_save()
+            return
+        if self._is_changed:
+            # Есть другие несохранённые правки: решение о них остаётся за
+            # пользователем, флаг сам по себе не сохраняем.
+            return
+        item.setCheckState(Qt.CheckState.Checked)
+        self._save_label_file(save_as=False)
 
     def _load_selected_image(
         self,
@@ -2543,6 +2602,10 @@ class MainWindow(QtWidgets.QMainWindow):
         carry_prev_shapes = bool(prev_shapes) and not shapes
         self._load_shapes(prev_shapes if carry_prev_shapes else shapes, replace=True)
         self._load_flags(flags=annotation.flags, widget=self._docks.flag_list)
+        self._page_check_pending = (
+            label_file_path is not None
+            and annotation.flags.get(_PAGE_CHECKED_FLAG) is False
+        )
         if carry_prev_shapes:
             self.mark_dirty()
         else:
@@ -2821,6 +2884,7 @@ class MainWindow(QtWidgets.QMainWindow):
             filters,
         )
         if image_or_label_path:
+            self._check_page_before_leaving()
             self._load_from_file_or_dir(file_or_dir=image_or_label_path)
 
     def prompt_output_dir(self, _value: bool = False, /) -> None:  # noqa: FBT001, FBT002 -- QAction.triggered slot
