@@ -106,14 +106,14 @@ shortcuts:
   zoom_to_original: Ctrl+0
   fit_window: Ctrl+F
   fit_width: Ctrl+Shift+F
-  create_polygon: Ctrl+N
-  create_rectangle: Ctrl+R
+  create_polygon: P
+  create_rectangle: R
   create_oriented_rectangle:
   create_circle:
   create_line:
   create_point:
   create_linestrip:
-  edit_shape: Ctrl+J
+  edit_shape: E
   delete_shape: Delete
   duplicate_shape: Ctrl+D
   copy_shape: Ctrl+C
@@ -125,7 +125,7 @@ shortcuts:
   remove_selected_point: [Meta+H, Backspace]
   show_all_shapes:
   hide_all_shapes:
-  toggle_all_shapes: T
+  toggle_all_shapes: F
   select_shape_up: Ctrl+Up
   select_shape_down: Ctrl+Down
   select_shape_left: Ctrl+Left

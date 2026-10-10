@@ -46,11 +46,11 @@ def test_reset_to_default_does_not_revive_legacy_overrides(*, tmp_path: Path) ->
         overrides=[
             (("with_image_data",), False),
             (("keep_prev_brightness_contrast",), False),
-            (("shortcuts", "edit_shape"), "Ctrl+J"),
+            (("shortcuts", "edit_shape"), "E"),
         ],
     )
     config = _config.load_config(config_file=config_file, config_overrides={})
     assert config["with_image_data"] is False
     assert config["keep_prev_brightness_contrast"] is False
-    assert config["shortcuts"]["edit_shape"] == "Ctrl+J"
+    assert config["shortcuts"]["edit_shape"] == "E"
     assert config_file.read_text() == ""
