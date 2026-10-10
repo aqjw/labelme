@@ -332,6 +332,14 @@
         <translation>Видалити вибрані фігури</translation>
     </message>
     <message>
+        <source>Delete All</source>
+        <translation>Видалити все</translation>
+    </message>
+    <message>
+        <source>Delete all visible shapes on this image</source>
+        <translation>Видалити всі видимі фігури на цьому зображенні</translation>
+    </message>
+    <message>
         <source>&amp;Edit Label</source>
         <translation>&amp;Редагувати мітку</translation>
     </message>

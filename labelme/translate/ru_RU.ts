@@ -477,6 +477,14 @@ Shapes</source>
         <translation>Сохраняет копию изображения внутри файла разметки</translation>
     </message>
     <message>
+        <source>Delete All</source>
+        <translation>Удалить все</translation>
+    </message>
+    <message>
+        <source>Delete all visible shapes on this image</source>
+        <translation>Удалить все видимые фигуры на этом изображении</translation>
+    </message>
+    <message>
         <source>Modify the label of the selected shape</source>
         <translation>Изменить метку выбранной фигуры</translation>
     </message>

@@ -467,6 +467,14 @@
         <translation>Menyimpan salinan gambar di dalam file label</translation>
     </message>
     <message>
+        <source>Delete All</source>
+        <translation>Hapus Semua</translation>
+    </message>
+    <message>
+        <source>Delete all visible shapes on this image</source>
+        <translation>Hapus semua bentuk yang terlihat pada gambar ini</translation>
+    </message>
+    <message>
         <source>Modify the label of the selected shape</source>
         <translation>Ubah label bentuk yang dipilih</translation>
     </message>

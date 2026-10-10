@@ -1624,6 +1624,17 @@ class Canvas(QtWidgets.QWidget):
         self.update()
         return removed
 
+    def delete_visible(self) -> list[Shape]:
+        removed = [s for s in self.shapes if s.visible]
+        if not removed:
+            return []
+        self.shapes = [s for s in self.shapes if not s.visible]
+        self.backup_shapes()
+        self.selected_shapes = [s for s in self.selected_shapes if not s.visible]
+        self._set_ai_existing_shape_highlights(shapes=[])
+        self.update()
+        return removed
+
     def delete_shape(self, *, shape: Shape) -> None:
         if shape in self.selected_shapes:
             self.selected_shapes.remove(shape)

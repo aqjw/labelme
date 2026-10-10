@@ -518,6 +518,14 @@ Shapes</source>
         <translation>A kép másolatát a címkefájlban tárolja</translation>
     </message>
     <message>
+        <source>Delete All</source>
+        <translation>Összes törlése</translation>
+    </message>
+    <message>
+        <source>Delete all visible shapes on this image</source>
+        <translation>Az összes látható alakzat törlése ezen a képen</translation>
+    </message>
+    <message>
         <source>Copy to Clipboard</source>
         <translation>Másolás a vágólapra</translation>
     </message>

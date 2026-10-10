@@ -492,6 +492,14 @@ Shapes</source>
         <translation>Lưu một bản sao của hình ảnh bên trong tệp nhãn</translation>
     </message>
     <message>
+        <source>Delete All</source>
+        <translation>Xóa Tất cả</translation>
+    </message>
+    <message>
+        <source>Delete all visible shapes on this image</source>
+        <translation>Xóa tất cả hình dạng đang hiển thị trên hình ảnh này</translation>
+    </message>
+    <message>
         <source>Modify the label of the selected shape</source>
         <translation>Sửa đổi nhãn của hình dạng đã chọn</translation>
     </message>

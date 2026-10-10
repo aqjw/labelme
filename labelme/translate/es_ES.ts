@@ -492,6 +492,14 @@ Shapes</source>
         <translation>Guarda una copia de la imagen dentro del archivo de etiqueta</translation>
     </message>
     <message>
+        <source>Delete All</source>
+        <translation>Eliminar todo</translation>
+    </message>
+    <message>
+        <source>Delete all visible shapes on this image</source>
+        <translation>Eliminar todas las formas visibles de esta imagen</translation>
+    </message>
+    <message>
         <source>Modify the label of the selected shape</source>
         <translation>Modificar la etiqueta de la forma seleccionada</translation>
     </message>

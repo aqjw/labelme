@@ -127,6 +127,7 @@ shortcuts:
   create_linestrip:
   edit_shape: E
   delete_shape: Delete
+  delete_all_shapes: Shift+Delete
   duplicate_shape: Ctrl+D
   copy_shape: Ctrl+C
   paste_shape: Ctrl+V

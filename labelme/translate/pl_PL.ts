@@ -492,6 +492,14 @@ Shapes</source>
         <translation>Zapisuje kopię obrazu wewnątrz pliku etykiet</translation>
     </message>
     <message>
+        <source>Delete All</source>
+        <translation>Usuń wszystko</translation>
+    </message>
+    <message>
+        <source>Delete all visible shapes on this image</source>
+        <translation>Usuń wszystkie widoczne kształty na tym obrazie</translation>
+    </message>
+    <message>
         <source>Modify the label of the selected shape</source>
         <translation>Zmień etykietę zaznaczonego kształtu</translation>
     </message>

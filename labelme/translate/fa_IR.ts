@@ -492,6 +492,14 @@ Shapes</source>
         <translation>یک نسخه از تصویر را داخل فایل برچسب ذخیره می‌کند</translation>
     </message>
     <message>
+        <source>Delete All</source>
+        <translation>حذف همه</translation>
+    </message>
+    <message>
+        <source>Delete all visible shapes on this image</source>
+        <translation>حذف همه شکل‌های قابل مشاهده در این تصویر</translation>
+    </message>
+    <message>
         <source>Modify the label of the selected shape</source>
         <translation>تغییر برچسب شکل انتخاب شده</translation>
     </message>

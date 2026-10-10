@@ -492,6 +492,14 @@ Shapes</source>
         <translation>Slaat een kopie van de afbeelding op in het labelbestand</translation>
     </message>
     <message>
+        <source>Delete All</source>
+        <translation>Alles verwijderen</translation>
+    </message>
+    <message>
+        <source>Delete all visible shapes on this image</source>
+        <translation>Alle zichtbare vormen op deze afbeelding verwijderen</translation>
+    </message>
+    <message>
         <source>Modify the label of the selected shape</source>
         <translation>Label van geselecteerde vorm wijzigen</translation>
     </message>

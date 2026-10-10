@@ -498,6 +498,14 @@ forme</translation>
         <translation>Salva una copia dell&apos;immagine all&apos;interno del file di etichette</translation>
     </message>
     <message>
+        <source>Delete All</source>
+        <translation>Elimina tutto</translation>
+    </message>
+    <message>
+        <source>Delete all visible shapes on this image</source>
+        <translation>Elimina tutte le forme visibili in questa immagine</translation>
+    </message>
+    <message>
         <source>Modify the label of the selected shape</source>
         <translation>Modifica l&apos;etichetta della forma selezionata</translation>
     </message>

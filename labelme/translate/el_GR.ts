@@ -332,6 +332,14 @@
         <translation>Διαγραφή των επιλεγμένων σχημάτων</translation>
     </message>
     <message>
+        <source>Delete All</source>
+        <translation>Διαγραφή όλων</translation>
+    </message>
+    <message>
+        <source>Delete all visible shapes on this image</source>
+        <translation>Διαγραφή όλων των ορατών σχημάτων σε αυτή την εικόνα</translation>
+    </message>
+    <message>
         <source>&amp;Edit Label</source>
         <translation>Επεξεργασία ετικέτας</translation>
     </message>

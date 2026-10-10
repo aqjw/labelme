@@ -492,6 +492,14 @@ Shapes</source>
         <translation>เก็บสำเนาของรูปภาพไว้ในไฟล์เลเบล</translation>
     </message>
     <message>
+        <source>Delete All</source>
+        <translation>ลบทั้งหมด</translation>
+    </message>
+    <message>
+        <source>Delete all visible shapes on this image</source>
+        <translation>ลบรูปร่างที่มองเห็นทั้งหมดในรูปภาพนี้</translation>
+    </message>
+    <message>
         <source>Modify the label of the selected shape</source>
         <translation>แก้ไขเลเบลของรูปร่างที่เลือก</translation>
     </message>

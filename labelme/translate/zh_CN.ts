@@ -498,6 +498,14 @@ Shapes</source>
         <translation>在标签文件中保存一份图像副本</translation>
     </message>
     <message>
+        <source>Delete All</source>
+        <translation>全部删除</translation>
+    </message>
+    <message>
+        <source>Delete all visible shapes on this image</source>
+        <translation>删除此图像上所有可见的形状</translation>
+    </message>
+    <message>
         <source>Modify the label of the selected shape</source>
         <translation>修改选中形状的标签</translation>
     </message>

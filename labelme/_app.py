@@ -151,6 +151,7 @@ class _Actions(NamedTuple):
     toggle_keep_prev_mode: QtGui.QAction
     toggle_keep_prev_brightness_contrast: QtGui.QAction
     delete: QtGui.QAction
+    delete_all: QtGui.QAction
     edit: QtGui.QAction
     copy: QtGui.QAction
     paste: QtGui.QAction
@@ -495,6 +496,13 @@ class MainWindow(QtWidgets.QMainWindow):
             tip=self.tr("Delete the selected shapes"),
             enabled=False,
         )
+        delete_all = action(
+            text=self.tr("Delete All"),
+            slot=self.delete_visible_shapes,
+            shortcut=shortcuts["delete_all_shapes"],
+            icon="phosphor/trash.svg",
+            tip=self.tr("Delete all visible shapes on this image"),
+        )
         edit = action(
             text=self.tr("&Edit Label"),
             slot=self._edit_label,
@@ -806,6 +814,7 @@ class MainWindow(QtWidgets.QMainWindow):
         shapes_present_actions.addAction(hide_all)
         shapes_present_actions.addAction(show_all)
         shapes_present_actions.addAction(toggle_all)
+        shapes_present_actions.addAction(delete_all)
         for select_action in select_neighbor_actions:
             shapes_present_actions.addAction(select_action)
 
@@ -862,6 +871,7 @@ class MainWindow(QtWidgets.QMainWindow):
             separator(),
             edit,
             delete,
+            delete_all,
             merge,
             add_point_to_edge,
             remove_point,
@@ -874,6 +884,7 @@ class MainWindow(QtWidgets.QMainWindow):
             separator(),
             edit,
             delete,
+            delete_all,
             merge,
             remove_point,
             separator(),
@@ -894,6 +905,7 @@ class MainWindow(QtWidgets.QMainWindow):
             toggle_keep_prev_mode=keep_prev_action,
             toggle_keep_prev_brightness_contrast=toggle_keep_prev_brightness_contrast,
             delete=delete,
+            delete_all=delete_all,
             edit=edit,
             copy=copy,
             paste=paste,
@@ -1073,6 +1085,7 @@ class MainWindow(QtWidgets.QMainWindow):
                     self._actions.edit_mode,
                     self._actions.duplicate,
                     self._actions.delete,
+                    self._actions.delete_all,
                     self._actions.undo,
                     self._actions.brightness_contrast,
                     separator(),
@@ -3364,6 +3377,15 @@ class MainWindow(QtWidgets.QMainWindow):
 
     def delete_selected_shapes(self) -> None:
         self.remove_labels(shapes=self._canvas_widgets.canvas.delete_selected())
+        self.mark_dirty()
+
+    def delete_visible_shapes(self) -> None:
+        # Удаляет все видимые фигуры одним шагом undo; скрытые галочкой в
+        # списке фигур не трогаем, чтобы не терять то, чего не видно.
+        removed = self._canvas_widgets.canvas.delete_visible()
+        if not removed:
+            return
+        self.remove_labels(shapes=removed)
         self.mark_dirty()
 
     def _load_from_file_or_dir(self, *, file_or_dir: str) -> None:

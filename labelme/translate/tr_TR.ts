@@ -498,6 +498,14 @@ Shapes</source>
         <translation>Görüntünün bir kopyasını etiket dosyasının içinde saklar</translation>
     </message>
     <message>
+        <source>Delete All</source>
+        <translation>Tümünü Sil</translation>
+    </message>
+    <message>
+        <source>Delete all visible shapes on this image</source>
+        <translation>Bu görüntüdeki tüm görünür şekilleri sil</translation>
+    </message>
+    <message>
         <source>Modify the label of the selected shape</source>
         <translation>Seçili şeklin etiketini değiştir</translation>
     </message>

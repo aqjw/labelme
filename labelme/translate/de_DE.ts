@@ -518,6 +518,14 @@ Formen</translation>
         <translation>Speichert eine Kopie des Bildes in der Label-Datei</translation>
     </message>
     <message>
+        <source>Delete All</source>
+        <translation>Alle löschen</translation>
+    </message>
+    <message>
+        <source>Delete all visible shapes on this image</source>
+        <translation>Alle sichtbaren Formen auf diesem Bild löschen</translation>
+    </message>
+    <message>
         <source>Copy to Clipboard</source>
         <translation>In Zwischenablage kopieren</translation>
     </message>

@@ -492,6 +492,14 @@ Shapes</source>
         <translation>이미지 사본을 레이블 파일 안에 저장합니다</translation>
     </message>
     <message>
+        <source>Delete All</source>
+        <translation>모두 삭제</translation>
+    </message>
+    <message>
+        <source>Delete all visible shapes on this image</source>
+        <translation>이 이미지에서 보이는 모든 도형 삭제</translation>
+    </message>
+    <message>
         <source>Modify the label of the selected shape</source>
         <translation>선택한 도형의 레이블 수정</translation>
     </message>

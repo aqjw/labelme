@@ -505,6 +505,14 @@ Shapes</source>
         <translation>画像のコピーをラベルファイル内に保存します</translation>
     </message>
     <message>
+        <source>Delete All</source>
+        <translation>すべて削除</translation>
+    </message>
+    <message>
+        <source>Delete all visible shapes on this image</source>
+        <translation>この画像の表示中の図形をすべて削除</translation>
+    </message>
+    <message>
         <source>Modify the label of the selected shape</source>
         <translation>選択した図形のラベルを変更</translation>
     </message>

@@ -492,6 +492,14 @@ Shapes</source>
         <translation>Salva uma cópia da imagem dentro do arquivo de rótulo</translation>
     </message>
     <message>
+        <source>Delete All</source>
+        <translation>Excluir Tudo</translation>
+    </message>
+    <message>
+        <source>Delete all visible shapes on this image</source>
+        <translation>Excluir todas as formas visíveis nesta imagem</translation>
+    </message>
+    <message>
         <source>Modify the label of the selected shape</source>
         <translation>Modificar o rótulo da forma selecionada</translation>
     </message>
