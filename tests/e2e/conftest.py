@@ -153,8 +153,9 @@ def main_win(
         config_overrides: dict | None = None,
         output_dir: str | Path | None = None,
         size: QSize | None = _DEFAULT_WINDOW_SIZE,
+        extra_args: list[str] | None = None,
     ) -> MainWindow:
-        argv = ["labelme"]
+        argv = ["labelme", *(extra_args or [])]
 
         if config_file is not None:
             argv.extend(["--config", str(config_file)])

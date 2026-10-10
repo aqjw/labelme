@@ -293,6 +293,18 @@ def main() -> None:
         default=argparse.SUPPRESS,
     )
     parser.add_argument(
+        "--checked-labels",
+        help="comma separated list of labels OR file containing labels whose "
+        "shapes are visible when a file is opened",
+        default=argparse.SUPPRESS,
+    )
+    parser.add_argument(
+        "--toggle-labels",
+        help="comma separated list of labels OR file containing labels affected "
+        "by show/hide/toggle all shapes",
+        default=argparse.SUPPRESS,
+    )
+    parser.add_argument(
         "--validate-label",
         "--validatelabel",  # deprecated
         dest="validate_label",
@@ -330,6 +342,10 @@ def main() -> None:
 
     if hasattr(args, "labels"):
         args.labels = _parse_list_arg(args.labels)
+    if hasattr(args, "checked_labels"):
+        args.checked_labels = _parse_list_arg(args.checked_labels)
+    if hasattr(args, "toggle_labels"):
+        args.toggle_labels = _parse_list_arg(args.toggle_labels)
 
     if hasattr(args, "label_flags"):
         if os.path.isfile(args.label_flags):

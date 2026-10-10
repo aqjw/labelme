@@ -12,6 +12,10 @@ color_theme: system
 flags:
 label_flags:
 labels:
+# labels whose shapes are visible when a file is opened; null shows all
+checked_labels:
+# labels affected by show/hide/toggle all shapes; null affects all
+toggle_labels:
 file_search:
 sort_labels: true
 validate_label:

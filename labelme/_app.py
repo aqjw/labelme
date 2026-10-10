@@ -2260,7 +2260,17 @@ class MainWindow(QtWidgets.QMainWindow):
         )
 
     def toggle_shape_visibility(self, *, value: bool | None) -> None:
+        # toggle_labels ограничивает show/hide/toggle all заданными метками,
+        # остальные фигуры сохраняют свою видимость.
+        toggle_labels = self._config["toggle_labels"]
         for item in self._docks.label_list:
+            shape = item.shape()
+            if (
+                toggle_labels is not None
+                and shape is not None
+                and shape.label not in toggle_labels
+            ):
+                continue
             target = (
                 item.checkState() == Qt.CheckState.Unchecked if value is None else value
             )
@@ -2387,6 +2397,9 @@ class MainWindow(QtWidgets.QMainWindow):
             shapes = _shapes_from_dicts(
                 shape_dicts=annotation.shapes,
                 label_flags=self._config["label_flags"],
+            )
+            _apply_checked_labels(
+                shapes=shapes, checked_labels=self._config["checked_labels"]
             )
         else:
             annotation = self._read_image_as_annotation(image_path=image_or_label_path)
@@ -3352,6 +3365,17 @@ class MainWindow(QtWidgets.QMainWindow):
                 f"y={self._status_mouse_pos.y():6.1f}"
             )
         self._status_bar.stats.setText(" | ".join(stats))
+
+
+def _apply_checked_labels(
+    *, shapes: list[Shape], checked_labels: list[str] | None
+) -> None:
+    # При открытии файла видимы только фигуры с метками из checked_labels;
+    # чекбоксы в списке меток берут состояние из shape.visible.
+    if checked_labels is None:
+        return
+    for shape in shapes:
+        shape.visible = shape.label in checked_labels
 
 
 def _shapes_from_dicts(
