@@ -169,6 +169,10 @@
         <translation>Noktayı silmek için ALT + SHIFT + Click</translation>
     </message>
     <message>
+        <source>Click to create point on shape</source>
+        <translation>Şekil üzerinde nokta oluşturmak için tıklayın</translation>
+    </message>
+    <message>
         <source>ALT + Click to create point on shape</source>
         <translation>Şekil üzerinde nokta oluşturmak için ALT + Click</translation>
     </message>

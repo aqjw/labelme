@@ -169,6 +169,10 @@
         <translation>ALT + SHIFT + Натисніть, щоб видалити точку</translation>
     </message>
     <message>
+        <source>Click to create point on shape</source>
+        <translation>Натисніть, щоб створити точку на фігурі</translation>
+    </message>
+    <message>
         <source>ALT + Click to create point on shape</source>
         <translation>ALT + Натисніть, щоб створити точку на фігурі</translation>
     </message>

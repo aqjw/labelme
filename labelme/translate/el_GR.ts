@@ -169,6 +169,10 @@
         <translation>ALT + SHIFT + Κάντε κλικ για διαγραφή σημείου</translation>
     </message>
     <message>
+        <source>Click to create point on shape</source>
+        <translation>Κάντε κλικ για να δημιουργήσετε σημείο στο σχήμα</translation>
+    </message>
+    <message>
         <source>ALT + Click to create point on shape</source>
         <translation>ALT + Κάντε κλικ για να δημιουργήσετε σημείο στο σχήμα</translation>
     </message>

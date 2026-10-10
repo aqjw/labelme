@@ -169,6 +169,10 @@
         <translation>ALT + SHIFT + کلیک برای حذف نقطه</translation>
     </message>
     <message>
+        <source>Click to create point on shape</source>
+        <translation>کلیک برای ایجاد نقطه روی شکل</translation>
+    </message>
+    <message>
         <source>ALT + Click to create point on shape</source>
         <translation>ALT + کلیک برای ایجاد نقطه روی شکل</translation>
     </message>

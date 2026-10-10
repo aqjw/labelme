@@ -1018,7 +1018,11 @@ class Canvas(QtWidgets.QWidget):
                 hovered_rotation=None,
             )
             self._apply_cursor(CursorRole.HANDLE)
-            status_messages.append(self.tr("ALT + Click to create point on shape"))
+            status_messages.append(
+                self.tr("Click to create point on shape")
+                if _adds_point_on_plain_edge_click(shape=target.shape)
+                else self.tr("ALT + Click to create point on shape")
+            )
             return
 
         if target.kind is HitKind.BODY:
@@ -1248,7 +1252,13 @@ class Canvas(QtWidgets.QWidget):
         # Returns True only when the press is consumed as a terminal edit (a point
         # removal), so the caller skips point selection and starts no drag. Adding
         # a point intentionally falls through so the new vertex can be dragged.
-        if self._is_edge_selected() and modifiers == Qt.KeyboardModifier.AltModifier:
+        if self._is_edge_selected() and (
+            modifiers == Qt.KeyboardModifier.AltModifier
+            or (
+                modifiers == Qt.KeyboardModifier.NoModifier
+                and _adds_point_on_plain_edge_click(shape=self.hovered_shape)
+            )
+        ):
             self.add_point_to_edge()
             return False
         if self._is_vertex_selected() and modifiers == (
@@ -2247,6 +2257,13 @@ def _compute_intersection_edges_image(
     if exit_axis == "x":
         return QPointF(start_x, np.clip(p2.y(), 0.0, height))
     return QPointF(np.clip(p2.x(), 0.0, width), start_y)
+
+
+def _adds_point_on_plain_edge_click(*, shape: Shape | None) -> bool:
+    # Полигон выделяется кликом внутрь, поэтому клик по его ребру свободен под
+    # вставку точки. У linestrip нет внутренней области — клик по линии должен
+    # выделять фигуру, а вставка точки остаётся на Alt+клик.
+    return shape is not None and shape.shape_type == "polygon"
 
 
 def _should_reselect_on_right_press(

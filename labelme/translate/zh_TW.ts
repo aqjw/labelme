@@ -169,6 +169,10 @@
         <translation>ALT + SHIFT + 點擊以刪除點</translation>
     </message>
     <message>
+        <source>Click to create point on shape</source>
+        <translation>點擊在形狀上創建點</translation>
+    </message>
+    <message>
         <source>ALT + Click to create point on shape</source>
         <translation>ALT + 點擊在形狀上創建點</translation>
     </message>

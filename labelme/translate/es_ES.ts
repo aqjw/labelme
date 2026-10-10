@@ -169,6 +169,10 @@
         <translation>ALT + MAYÚS + Clic para eliminar el punto</translation>
     </message>
     <message>
+        <source>Click to create point on shape</source>
+        <translation>Clic para crear un punto en la forma</translation>
+    </message>
+    <message>
         <source>ALT + Click to create point on shape</source>
         <translation>ALT + Clic para crear un punto en la forma</translation>
     </message>

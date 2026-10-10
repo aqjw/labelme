@@ -169,6 +169,10 @@
         <translation>按住 ALT + SHIFT 并单击以删除顶点</translation>
     </message>
     <message>
+        <source>Click to create point on shape</source>
+        <translation>单击以在形状上添加顶点</translation>
+    </message>
+    <message>
         <source>ALT + Click to create point on shape</source>
         <translation>按住 ALT 并单击以在形状上添加顶点</translation>
     </message>

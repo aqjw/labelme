@@ -169,6 +169,10 @@
         <translation>ALT + SHIFT + クリックで頂点を削除</translation>
     </message>
     <message>
+        <source>Click to create point on shape</source>
+        <translation>クリックで図形上に頂点を作成</translation>
+    </message>
+    <message>
         <source>ALT + Click to create point on shape</source>
         <translation>ALT + クリックで図形上に頂点を作成</translation>
     </message>

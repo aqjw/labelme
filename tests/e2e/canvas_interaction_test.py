@@ -256,12 +256,18 @@ def test_select_all_shapes_from_canvas(
 
 
 @pytest.mark.gui
+@pytest.mark.parametrize(
+    "modifier",
+    [Qt.KeyboardModifier.NoModifier, Qt.KeyboardModifier.AltModifier],
+    ids=["plain_click", "alt_click"],
+)
 def test_add_point_on_edge(
     *,
     qtbot: QtBot,
     annotated_win: MainWindow,
     tmp_path: Path,
     pause: bool,
+    modifier: Qt.KeyboardModifier,
 ) -> None:
     canvas = annotated_win._canvas_widgets.canvas
     annotated_win._switch_canvas_mode(edit=False, create_mode="polygon")
@@ -296,12 +302,7 @@ def test_add_point_on_edge(
     mid_widget = image_to_widget_pos(canvas=canvas, image_pos=edge_mid)
     qtbot.mouseMove(canvas, pos=mid_widget)
     qtbot.wait(100)
-    qtbot.mouseClick(
-        canvas,
-        Qt.MouseButton.LeftButton,
-        Qt.KeyboardModifier.AltModifier,
-        pos=mid_widget,
-    )
+    qtbot.mouseClick(canvas, Qt.MouseButton.LeftButton, modifier, pos=mid_widget)
     qtbot.wait(50)
 
     assert len(shape.points) == num_points_before + 1

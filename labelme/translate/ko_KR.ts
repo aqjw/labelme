@@ -169,6 +169,10 @@
         <translation>ALT + SHIFT + 클릭으로 점 삭제</translation>
     </message>
     <message>
+        <source>Click to create point on shape</source>
+        <translation>클릭으로 도형 위에 점 생성</translation>
+    </message>
+    <message>
         <source>ALT + Click to create point on shape</source>
         <translation>ALT + 클릭으로 도형 위에 점 생성</translation>
     </message>

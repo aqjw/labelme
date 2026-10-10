@@ -165,6 +165,10 @@
         <translation>ALT + SHIFT + Klick zum Löschen des Punktes</translation>
     </message>
     <message>
+        <source>Click to create point on shape</source>
+        <translation>Klicken, um einen Punkt auf der Form zu erstellen</translation>
+    </message>
+    <message>
         <source>ALT + Click to create point on shape</source>
         <translation>ALT + Klick zum Erstellen eines Punktes auf der Form</translation>
     </message>

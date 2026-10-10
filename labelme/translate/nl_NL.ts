@@ -169,6 +169,10 @@
         <translation>ALT + SHIFT + Klik om punt te verwijderen</translation>
     </message>
     <message>
+        <source>Click to create point on shape</source>
+        <translation>Klik om punt op vorm te maken</translation>
+    </message>
+    <message>
         <source>ALT + Click to create point on shape</source>
         <translation>ALT + Klik om punt op vorm te maken</translation>
     </message>

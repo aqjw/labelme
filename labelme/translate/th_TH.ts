@@ -173,6 +173,10 @@
         <translation>ALT + SHIFT + คลิกเพื่อลบจุด</translation>
     </message>
     <message>
+        <source>Click to create point on shape</source>
+        <translation>คลิกเพื่อสร้างจุดบนรูปร่าง</translation>
+    </message>
+    <message>
         <source>ALT + Click to create point on shape</source>
         <translation>ALT + คลิกเพื่อสร้างจุดบนรูปร่าง</translation>
     </message>

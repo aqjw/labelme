@@ -169,6 +169,10 @@
         <translation>ALT + SHIFT + Klik — usuń punkt</translation>
     </message>
     <message>
+        <source>Click to create point on shape</source>
+        <translation>Kliknij, aby utworzyć punkt na kształcie</translation>
+    </message>
+    <message>
         <source>ALT + Click to create point on shape</source>
         <translation>ALT + Klik — utwórz punkt na kształcie</translation>
     </message>

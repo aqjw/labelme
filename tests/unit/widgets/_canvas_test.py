@@ -22,6 +22,7 @@ from labelme._shape import Shape
 from labelme._shape import ShapeType
 from labelme._widgets._canvas import _CREATE_MODE_TO_SHAPE_TYPE
 from labelme._widgets._canvas import Canvas
+from labelme._widgets._canvas import _adds_point_on_plain_edge_click
 from labelme._widgets._canvas import _compute_intersection_edges_image
 from labelme._widgets._canvas import _compute_shapes_bounds
 from labelme._widgets._canvas import _draft_to_shape
@@ -2754,3 +2755,21 @@ def test_label_palette_uses_configured_fill_alpha(*, canvas: Canvas) -> None:
     palette = canvas._resolve_palette("cat")
     assert palette.fill.getRgb() == (10, 20, 30, 40)
     assert palette.select_fill.getRgb() == (10, 20, 30, 40)
+
+
+@pytest.mark.parametrize(
+    ("shape_type", "expected"),
+    [("polygon", True), ("linestrip", False)],
+)
+def test_adds_point_on_plain_edge_click(
+    *, shape_type: ShapeType, expected: bool
+) -> None:
+    shape = Shape(
+        shape_type=shape_type,
+        points=np.array([[0.0, 0.0], [10.0, 0.0], [10.0, 10.0]]),
+    )
+    assert _adds_point_on_plain_edge_click(shape=shape) is expected
+
+
+def test_adds_point_on_plain_edge_click_without_shape() -> None:
+    assert _adds_point_on_plain_edge_click(shape=None) is False

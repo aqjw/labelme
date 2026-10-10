@@ -165,6 +165,10 @@
         <translation>ALT + SHIFT + Kattintás a pont törléséhez</translation>
     </message>
     <message>
+        <source>Click to create point on shape</source>
+        <translation>Kattintás pont létrehozásához az alakzaton</translation>
+    </message>
+    <message>
         <source>ALT + Click to create point on shape</source>
         <translation>ALT + Kattintás pont létrehozásához az alakzaton</translation>
     </message>

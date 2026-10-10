@@ -169,6 +169,10 @@
         <translation>ALT + SHIFT + Klik untuk menghapus titik</translation>
     </message>
     <message>
+        <source>Click to create point on shape</source>
+        <translation>Klik untuk membuat titik pada bentuk</translation>
+    </message>
+    <message>
         <source>ALT + Click to create point on shape</source>
         <translation>ALT + Klik untuk membuat titik pada bentuk</translation>
     </message>

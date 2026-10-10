@@ -169,6 +169,10 @@
         <translation>ALT + SHIFT + Nhấn để xóa điểm</translation>
     </message>
     <message>
+        <source>Click to create point on shape</source>
+        <translation>Nhấn để tạo điểm trên hình dạng</translation>
+    </message>
+    <message>
         <source>ALT + Click to create point on shape</source>
         <translation>ALT + Nhấn để tạo điểm trên hình dạng</translation>
     </message>
