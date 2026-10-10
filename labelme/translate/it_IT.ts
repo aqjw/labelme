@@ -538,6 +538,22 @@ forme</translation>
         <translation>Fai clic per posizionare i punti della polilinea; Ctrl+clic posiziona l&apos;ultimo.</translation>
     </message>
     <message>
+        <source>&amp;Bookmark Image</source>
+        <translation>Aggiungi &amp;segnalibro all&apos;immagine</translation>
+    </message>
+    <message>
+        <source>Bookmark the current image to return to it later</source>
+        <translation>Aggiungi un segnalibro all&apos;immagine corrente per tornarci più tardi</translation>
+    </message>
+    <message>
+        <source>&amp;Go to Bookmark</source>
+        <translation>Vai al se&amp;gnalibro</translation>
+    </message>
+    <message>
+        <source>Open the bookmarked image</source>
+        <translation>Apri l&apos;immagine con segnalibro</translation>
+    </message>
+    <message>
         <source>Fit to &amp;Window</source>
         <translation>&amp;Adatta alla finestra</translation>
     </message>
@@ -758,6 +774,14 @@ Cambia il modello AI Text-to-Annotation in &apos;SAM3 (smart)&apos; oppure impos
     <message>
         <source>Loaded %s</source>
         <translation>%s caricato</translation>
+    </message>
+    <message>
+        <source>Remove Bookmark</source>
+        <translation>Rimuovi segnalibro</translation>
+    </message>
+    <message>
+        <source>Set Bookmark</source>
+        <translation>Imposta segnalibro</translation>
     </message>
     <message>
         <source>Images and annotation files (%s)</source>

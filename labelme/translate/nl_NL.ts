@@ -532,6 +532,22 @@ Shapes</source>
         <translation>Klik om punten van de lijnstrook te plaatsen; Ctrl+klik plaatst het laatste.</translation>
     </message>
     <message>
+        <source>&amp;Bookmark Image</source>
+        <translation>Afbeelding als &amp;bladwijzer</translation>
+    </message>
+    <message>
+        <source>Bookmark the current image to return to it later</source>
+        <translation>Huidige afbeelding als bladwijzer markeren om er later naar terug te keren</translation>
+    </message>
+    <message>
+        <source>&amp;Go to Bookmark</source>
+        <translation>Naar bladwijzer &amp;gaan</translation>
+    </message>
+    <message>
+        <source>Open the bookmarked image</source>
+        <translation>Afbeelding met bladwijzer openen</translation>
+    </message>
+    <message>
         <source>Fit to &amp;Window</source>
         <translation>Aanpassen aan &amp;venster</translation>
     </message>
@@ -752,6 +768,14 @@ Wijzig het AI Text-to-Annotation-model naar &apos;SAM3 (smart)&apos; of stel het
     <message>
         <source>Loaded %s</source>
         <translation>Geladen %s</translation>
+    </message>
+    <message>
+        <source>Remove Bookmark</source>
+        <translation>Bladwijzer verwijderen</translation>
+    </message>
+    <message>
+        <source>Set Bookmark</source>
+        <translation>Bladwijzer instellen</translation>
     </message>
     <message>
         <source>Images and annotation files (%s)</source>

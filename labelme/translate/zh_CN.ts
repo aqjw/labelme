@@ -538,6 +538,22 @@ Shapes</source>
         <translation>单击放置折线的点；Ctrl+单击放置最后一个点。</translation>
     </message>
     <message>
+        <source>&amp;Bookmark Image</source>
+        <translation>书签标记图像(&amp;B)</translation>
+    </message>
+    <message>
+        <source>Bookmark the current image to return to it later</source>
+        <translation>为当前图像添加书签，以便稍后返回</translation>
+    </message>
+    <message>
+        <source>&amp;Go to Bookmark</source>
+        <translation>转到书签(&amp;G)</translation>
+    </message>
+    <message>
+        <source>Open the bookmarked image</source>
+        <translation>打开带书签的图像</translation>
+    </message>
+    <message>
         <source>Fit to &amp;Window</source>
         <translation>适合窗口(&amp;W)</translation>
     </message>
@@ -758,6 +774,14 @@ Switch the AI Text-to-Annotation model to &apos;SAM3 (smart)&apos;, or set the o
     <message>
         <source>Loaded %s</source>
         <translation>已加载 %s</translation>
+    </message>
+    <message>
+        <source>Remove Bookmark</source>
+        <translation>移除书签</translation>
+    </message>
+    <message>
+        <source>Set Bookmark</source>
+        <translation>设置书签</translation>
     </message>
     <message>
         <source>Images and annotation files (%s)</source>

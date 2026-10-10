@@ -554,6 +554,22 @@ Formen</translation>
         <translation>Klicken, um Punkte der Linienfolge zu setzen; Strg+Klick setzt den letzten.</translation>
     </message>
     <message>
+        <source>&amp;Bookmark Image</source>
+        <translation>Bild mit &amp;Lesezeichen versehen</translation>
+    </message>
+    <message>
+        <source>Bookmark the current image to return to it later</source>
+        <translation>Aktuelles Bild mit einem Lesezeichen versehen, um später dorthin zurückzukehren</translation>
+    </message>
+    <message>
+        <source>&amp;Go to Bookmark</source>
+        <translation>&amp;Zum Lesezeichen</translation>
+    </message>
+    <message>
+        <source>Open the bookmarked image</source>
+        <translation>Bild mit Lesezeichen öffnen</translation>
+    </message>
+    <message>
         <source>Fit to &amp;Window</source>
         <translation>&amp;An Fenster anpassen</translation>
     </message>
@@ -766,6 +782,14 @@ Wechseln Sie das AI Text-to-Annotation-Modell zu &apos;SAM3 (smart)&apos; oder s
     <message>
         <source>Loaded %s</source>
         <translation>%s geladen</translation>
+    </message>
+    <message>
+        <source>Remove Bookmark</source>
+        <translation>Lesezeichen entfernen</translation>
+    </message>
+    <message>
+        <source>Set Bookmark</source>
+        <translation>Lesezeichen setzen</translation>
     </message>
     <message>
         <source>Images and annotation files (%s)</source>

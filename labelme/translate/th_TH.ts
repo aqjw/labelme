@@ -532,6 +532,22 @@ Shapes</source>
         <translation>คลิกเพื่อวางจุดของเส้นต่อเนื่อง Ctrl+คลิกเพื่อวางจุดสุดท้าย</translation>
     </message>
     <message>
+        <source>&amp;Bookmark Image</source>
+        <translation>บุ๊กมาร์กรูปภาพ (&amp;B)</translation>
+    </message>
+    <message>
+        <source>Bookmark the current image to return to it later</source>
+        <translation>บุ๊กมาร์กรูปภาพปัจจุบันเพื่อกลับมาภายหลัง</translation>
+    </message>
+    <message>
+        <source>&amp;Go to Bookmark</source>
+        <translation>ไปที่บุ๊กมาร์ก (&amp;G)</translation>
+    </message>
+    <message>
+        <source>Open the bookmarked image</source>
+        <translation>เปิดรูปภาพที่บุ๊กมาร์กไว้</translation>
+    </message>
+    <message>
         <source>Fit to &amp;Window</source>
         <translation>พอดีหน้าต่าง (&amp;W)</translation>
     </message>
@@ -752,6 +768,14 @@ Switch the AI Text-to-Annotation model to &apos;SAM3 (smart)&apos;, or set the o
     <message>
         <source>Loaded %s</source>
         <translation>โหลด %s แล้ว</translation>
+    </message>
+    <message>
+        <source>Remove Bookmark</source>
+        <translation>ลบบุ๊กมาร์ก</translation>
+    </message>
+    <message>
+        <source>Set Bookmark</source>
+        <translation>ตั้งบุ๊กมาร์ก</translation>
     </message>
     <message>
         <source>Images and annotation files (%s)</source>

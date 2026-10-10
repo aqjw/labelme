@@ -532,6 +532,22 @@ Shapes</source>
         <translation>Kliknij, aby umieścić punkty polilinii; Ctrl+kliknięcie umieszcza ostatni.</translation>
     </message>
     <message>
+        <source>&amp;Bookmark Image</source>
+        <translation>&amp;Dodaj zakładkę do obrazu</translation>
+    </message>
+    <message>
+        <source>Bookmark the current image to return to it later</source>
+        <translation>Dodaj zakładkę do bieżącego obrazu, aby wrócić do niego później</translation>
+    </message>
+    <message>
+        <source>&amp;Go to Bookmark</source>
+        <translation>&amp;Przejdź do zakładki</translation>
+    </message>
+    <message>
+        <source>Open the bookmarked image</source>
+        <translation>Otwórz obraz z zakładką</translation>
+    </message>
+    <message>
         <source>Fit to &amp;Window</source>
         <translation>Dopasuj do okna (&amp;W)</translation>
     </message>
@@ -752,6 +768,14 @@ Zmień model AI Text-to-Annotation na &apos;SAM3 (smart)&apos; lub ustaw format 
     <message>
         <source>Loaded %s</source>
         <translation>Wczytano %s</translation>
+    </message>
+    <message>
+        <source>Remove Bookmark</source>
+        <translation>Usuń zakładkę</translation>
+    </message>
+    <message>
+        <source>Set Bookmark</source>
+        <translation>Ustaw zakładkę</translation>
     </message>
     <message>
         <source>Images and annotation files (%s)</source>

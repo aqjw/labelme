@@ -532,6 +532,22 @@ Shapes</source>
         <translation>클릭하여 연속선의 점을 놓고, Ctrl+클릭으로 마지막 점을 놓습니다.</translation>
     </message>
     <message>
+        <source>&amp;Bookmark Image</source>
+        <translation>이미지 책갈피(&amp;B)</translation>
+    </message>
+    <message>
+        <source>Bookmark the current image to return to it later</source>
+        <translation>나중에 돌아올 수 있도록 현재 이미지에 책갈피 지정</translation>
+    </message>
+    <message>
+        <source>&amp;Go to Bookmark</source>
+        <translation>책갈피로 이동(&amp;G)</translation>
+    </message>
+    <message>
+        <source>Open the bookmarked image</source>
+        <translation>책갈피한 이미지 열기</translation>
+    </message>
+    <message>
         <source>Fit to &amp;Window</source>
         <translation>창에 맞추기(&amp;W)</translation>
     </message>
@@ -752,6 +768,14 @@ AI Text-to-Annotation 모델을 &apos;SAM3 (smart)&apos;(으)로 변경하거나
     <message>
         <source>Loaded %s</source>
         <translation>%s 로드됨</translation>
+    </message>
+    <message>
+        <source>Remove Bookmark</source>
+        <translation>책갈피 제거</translation>
+    </message>
+    <message>
+        <source>Set Bookmark</source>
+        <translation>책갈피 설정</translation>
     </message>
     <message>
         <source>Images and annotation files (%s)</source>

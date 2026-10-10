@@ -507,6 +507,22 @@
         <translation>Klik untuk menempatkan titik garis patah; Ctrl+klik menempatkan titik terakhir.</translation>
     </message>
     <message>
+        <source>&amp;Bookmark Image</source>
+        <translation>Tandai Gambar (&amp;B)</translation>
+    </message>
+    <message>
+        <source>Bookmark the current image to return to it later</source>
+        <translation>Tandai gambar saat ini untuk kembali ke sana nanti</translation>
+    </message>
+    <message>
+        <source>&amp;Go to Bookmark</source>
+        <translation>Ke Penanda (&amp;G)</translation>
+    </message>
+    <message>
+        <source>Open the bookmarked image</source>
+        <translation>Buka gambar yang ditandai</translation>
+    </message>
+    <message>
         <source>Fit to &amp;Window</source>
         <translation>Sesuaikan Jendela (&amp;W)</translation>
     </message>
@@ -727,6 +743,14 @@ Ganti model AI Text-to-Annotation ke &apos;SAM3 (smart)&apos;, atau atur format 
     <message>
         <source>Loaded %s</source>
         <translation>%s dimuat</translation>
+    </message>
+    <message>
+        <source>Remove Bookmark</source>
+        <translation>Hapus Penanda</translation>
+    </message>
+    <message>
+        <source>Set Bookmark</source>
+        <translation>Atur Penanda</translation>
     </message>
     <message>
         <source>Images and annotation files (%s)</source>

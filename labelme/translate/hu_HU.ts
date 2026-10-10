@@ -554,6 +554,22 @@ Shapes</source>
         <translation>Kattintson a vonallánc pontjainak elhelyezéséhez; Ctrl+kattintás helyezi el az utolsót.</translation>
     </message>
     <message>
+        <source>&amp;Bookmark Image</source>
+        <translation>&amp;Kép könyvjelzőzése</translation>
+    </message>
+    <message>
+        <source>Bookmark the current image to return to it later</source>
+        <translation>Az aktuális kép megjelölése könyvjelzővel, hogy később visszatérhessen hozzá</translation>
+    </message>
+    <message>
+        <source>&amp;Go to Bookmark</source>
+        <translation>&amp;Ugrás a könyvjelzőhöz</translation>
+    </message>
+    <message>
+        <source>Open the bookmarked image</source>
+        <translation>A könyvjelzővel ellátott kép megnyitása</translation>
+    </message>
+    <message>
         <source>Fit to &amp;Window</source>
         <translation>&amp;Ablakhoz igazítás</translation>
     </message>
@@ -766,6 +782,14 @@ Váltson az AI Text-to-Annotation modellnél &apos;SAM3 (smart)&apos;-re, vagy �
     <message>
         <source>Loaded %s</source>
         <translation>%s betöltve</translation>
+    </message>
+    <message>
+        <source>Remove Bookmark</source>
+        <translation>Könyvjelző eltávolítása</translation>
+    </message>
+    <message>
+        <source>Set Bookmark</source>
+        <translation>Könyvjelző beállítása</translation>
     </message>
     <message>
         <source>Images and annotation files (%s)</source>

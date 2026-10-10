@@ -429,6 +429,22 @@
         <translation>Άνοιγμα προηγούμενου (κρατήστε πατημένο το πλήκτρο Ctl+Shift για να αντιγράψετε τις ετικέτες)</translation>
     </message>
     <message>
+        <source>&amp;Bookmark Image</source>
+        <translation>Σελιδοδείκτης εικόνας</translation>
+    </message>
+    <message>
+        <source>Bookmark the current image to return to it later</source>
+        <translation>Προσθήκη σελιδοδείκτη στην τρέχουσα εικόνα για επιστροφή αργότερα</translation>
+    </message>
+    <message>
+        <source>&amp;Go to Bookmark</source>
+        <translation>Μετάβαση στον σελιδοδείκτη</translation>
+    </message>
+    <message>
+        <source>Open the bookmarked image</source>
+        <translation>Άνοιγμα της εικόνας με σελιδοδείκτη</translation>
+    </message>
+    <message>
         <source>&amp;Brightness Contrast</source>
         <translation>αντίθεση φωτεινότητας</translation>
     </message>
@@ -672,6 +688,14 @@ Switch the AI Text-to-Annotation model to &apos;SAM3 (smart)&apos;, or set the o
     <message>
         <source>Loaded %s</source>
         <translation>Φορτώθηκε %s</translation>
+    </message>
+    <message>
+        <source>Remove Bookmark</source>
+        <translation>Αφαίρεση σελιδοδείκτη</translation>
+    </message>
+    <message>
+        <source>Set Bookmark</source>
+        <translation>Ορισμός σελιδοδείκτη</translation>
     </message>
     <message>
         <source>Images and annotation files (%s)</source>

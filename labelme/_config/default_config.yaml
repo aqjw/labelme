@@ -111,6 +111,8 @@ shortcuts:
   delete_file: Ctrl+Delete
   open_next: [D, Ctrl+Shift+D]
   open_prev: [A, Ctrl+Shift+A]
+  toggle_bookmark: B
+  go_to_bookmark: Shift+B
   zoom_in: [Ctrl++, Ctrl+=]
   zoom_out: Ctrl+-
   zoom_to_original: Ctrl+0

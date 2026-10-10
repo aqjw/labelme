@@ -538,6 +538,22 @@ Shapes</source>
         <translation>Çizgi şeridinin noktalarını yerleştirmek için tıklayın; Ctrl+tıklama sonuncuyu yerleştirir.</translation>
     </message>
     <message>
+        <source>&amp;Bookmark Image</source>
+        <translation>Görüntüyü &amp;Yer İmine Ekle</translation>
+    </message>
+    <message>
+        <source>Bookmark the current image to return to it later</source>
+        <translation>Daha sonra geri dönmek için geçerli görüntüyü yer imine ekle</translation>
+    </message>
+    <message>
+        <source>&amp;Go to Bookmark</source>
+        <translation>Yer İmine &amp;Git</translation>
+    </message>
+    <message>
+        <source>Open the bookmarked image</source>
+        <translation>Yer imli görüntüyü aç</translation>
+    </message>
+    <message>
         <source>Fit to &amp;Window</source>
         <translation>&amp;Pencereye Sığdır</translation>
     </message>
@@ -758,6 +774,14 @@ AI Text-to-Annotation modelini &apos;SAM3 (smart)&apos; olarak değiştirin veya
     <message>
         <source>Loaded %s</source>
         <translation>%s yüklendi</translation>
+    </message>
+    <message>
+        <source>Remove Bookmark</source>
+        <translation>Yer İmini Kaldır</translation>
+    </message>
+    <message>
+        <source>Set Bookmark</source>
+        <translation>Yer İmi Ayarla</translation>
     </message>
     <message>
         <source>Images and annotation files (%s)</source>

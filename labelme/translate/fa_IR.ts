@@ -532,6 +532,22 @@ Shapes</source>
         <translation>برای قرار دادن نقاط خط چندتکه‌ای کلیک کنید؛ Ctrl+کلیک نقطه آخر را قرار می‌دهد.</translation>
     </message>
     <message>
+        <source>&amp;Bookmark Image</source>
+        <translation>نشانک‌گذاری تصویر(&amp;B)</translation>
+    </message>
+    <message>
+        <source>Bookmark the current image to return to it later</source>
+        <translation>نشانک‌گذاری تصویر فعلی برای بازگشت به آن در آینده</translation>
+    </message>
+    <message>
+        <source>&amp;Go to Bookmark</source>
+        <translation>رفتن به نشانک(&amp;G)</translation>
+    </message>
+    <message>
+        <source>Open the bookmarked image</source>
+        <translation>باز کردن تصویر نشانک‌شده</translation>
+    </message>
+    <message>
         <source>Fit to &amp;Window</source>
         <translation>تناسب با پنجره(&amp;W)</translation>
     </message>
@@ -752,6 +768,14 @@ Switch the AI Text-to-Annotation model to &apos;SAM3 (smart)&apos;, or set the o
     <message>
         <source>Loaded %s</source>
         <translation>بارگذاری شد %s</translation>
+    </message>
+    <message>
+        <source>Remove Bookmark</source>
+        <translation>حذف نشانک</translation>
+    </message>
+    <message>
+        <source>Set Bookmark</source>
+        <translation>تنظیم نشانک</translation>
     </message>
     <message>
         <source>Images and annotation files (%s)</source>

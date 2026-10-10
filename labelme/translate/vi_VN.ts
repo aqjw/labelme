@@ -532,6 +532,22 @@ Shapes</source>
         <translation>Nhấn để đặt các điểm của đường gấp khúc; Ctrl+nhấn đặt điểm cuối cùng.</translation>
     </message>
     <message>
+        <source>&amp;Bookmark Image</source>
+        <translation>Đánh dấu Hình ảnh(&amp;B)</translation>
+    </message>
+    <message>
+        <source>Bookmark the current image to return to it later</source>
+        <translation>Đánh dấu hình ảnh hiện tại để quay lại sau</translation>
+    </message>
+    <message>
+        <source>&amp;Go to Bookmark</source>
+        <translation>Đi tới Dấu trang(&amp;G)</translation>
+    </message>
+    <message>
+        <source>Open the bookmarked image</source>
+        <translation>Mở hình ảnh đã đánh dấu</translation>
+    </message>
+    <message>
         <source>Fit to &amp;Window</source>
         <translation>Vừa Cửa sổ(&amp;W)</translation>
     </message>
@@ -752,6 +768,14 @@ Chuyển mô hình AI Text-to-Annotation sang &apos;SAM3 (smart)&apos;, hoặc �
     <message>
         <source>Loaded %s</source>
         <translation>Đã tải %s</translation>
+    </message>
+    <message>
+        <source>Remove Bookmark</source>
+        <translation>Xóa Dấu trang</translation>
+    </message>
+    <message>
+        <source>Set Bookmark</source>
+        <translation>Đặt Dấu trang</translation>
     </message>
     <message>
         <source>Images and annotation files (%s)</source>

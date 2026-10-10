@@ -10,6 +10,7 @@ import re
 import subprocess
 import time
 import typing
+import urllib.parse
 import webbrowser
 from pathlib import Path
 from typing import Final
@@ -171,6 +172,8 @@ class _Actions(NamedTuple):
     create_ai_box_to_shape_mode: QtGui.QAction
     open_next_img: QtGui.QAction
     open_prev_img: QtGui.QAction
+    toggle_bookmark: QtGui.QAction
+    go_to_bookmark: QtGui.QAction
     keep_prev_zoom: QtGui.QAction
     fit_window: QtGui.QAction
     fit_width: QtGui.QAction
@@ -662,6 +665,23 @@ class MainWindow(QtWidgets.QMainWindow):
             tip=self.tr("Open prev (hold Ctl+Shift to copy labels)"),
             enabled=False,
         )
+        toggle_bookmark = action(
+            text=self.tr("&Bookmark Image"),
+            slot=self._toggle_current_image_bookmark,
+            shortcut=shortcuts["toggle_bookmark"],
+            icon="phosphor/bookmark-simple.svg",
+            tip=self.tr("Bookmark the current image to return to it later"),
+            checkable=True,
+            enabled=False,
+        )
+        go_to_bookmark = action(
+            text=self.tr("&Go to Bookmark"),
+            slot=self._go_to_bookmark,
+            shortcut=shortcuts["go_to_bookmark"],
+            icon="phosphor/bookmark-simple-fill.svg",
+            tip=self.tr("Open the bookmarked image"),
+            enabled=False,
+        )
         keep_prev_zoom = action(
             text=self.tr("&Keep Previous Zoom"),
             checkable=True,
@@ -895,6 +915,8 @@ class MainWindow(QtWidgets.QMainWindow):
             create_ai_box_to_shape_mode=create_ai_box_to_shape_mode,
             open_next_img=open_next_img,
             open_prev_img=open_prev_img,
+            toggle_bookmark=toggle_bookmark,
+            go_to_bookmark=go_to_bookmark,
             keep_prev_zoom=keep_prev_zoom,
             fit_window=fit_window,
             fit_width=fit_width,
@@ -960,12 +982,20 @@ class MainWindow(QtWidgets.QMainWindow):
         self._docks.label_list.customContextMenuRequested.connect(
             self.show_label_list_menu
         )
+        self._docks.file_list.setContextMenuPolicy(
+            Qt.ContextMenuPolicy.CustomContextMenu
+        )
+        self._docks.file_list.customContextMenuRequested.connect(
+            self._show_file_list_menu
+        )
 
         file_menu.addActions(
             (
                 self._actions.open,
                 self._actions.open_next_img,
                 self._actions.open_prev_img,
+                self._actions.go_to_bookmark,
+                self._actions.toggle_bookmark,
                 self._actions.open_dir,
                 self._actions.save,
                 self._actions.save_as,
@@ -1086,6 +1116,9 @@ class MainWindow(QtWidgets.QMainWindow):
         output_dir: str | None,
     ) -> None:
         self._output_dir = Path(output_dir) if output_dir else None
+        # Закладки живут отдельно от Window State, чтобы сброс раскладки
+        # (--reset-config) их не стирал.
+        self._bookmarks = QtCore.QSettings("labelme", "bookmarks")
 
         self._image = QtGui.QImage()
         self._annotation = None
@@ -2639,6 +2672,98 @@ class MainWindow(QtWidgets.QMainWindow):
         self._actions.open_next_img.setEnabled(
             self._get_neighbor_image_path(step=1) is not None
         )
+        self._sync_bookmark()
+
+    def _bookmark_key(self) -> str | None:
+        # Закладка одна на папку File List. Ключ — канонический путь папки,
+        # percent-encoded: QSettings считает «/» и обратный слэш разделителями групп.
+        if not self._loaded_image_paths or self._prev_opened_dir is None:
+            return None
+        root_dir = os.path.realpath(self._prev_opened_dir)
+        encoded = urllib.parse.quote(root_dir, safe="")
+        return f"bookmarks/{encoded}"
+
+    def _get_bookmark(self) -> str | None:
+        # Возвращает путь в том виде, в каком он записан в File List, чтобы его
+        # можно было сравнивать с текстом элементов.
+        key = self._bookmark_key()
+        if key is None:
+            return None
+        stored = self._bookmarks.value(key, None, type=str)
+        if not stored:
+            return None
+        return next(
+            (
+                path
+                for path in self._loaded_image_paths
+                if os.path.realpath(path) == stored
+            ),
+            None,
+        )
+
+    def _set_bookmark(self, *, image_path: str | None) -> None:
+        # Новая закладка заменяет прежнюю в этой папке; None снимает её.
+        key = self._bookmark_key()
+        if key is None:
+            return
+        if image_path is None:
+            self._bookmarks.remove(key)
+        else:
+            self._bookmarks.setValue(key, os.path.realpath(image_path))
+        self._bookmarks.sync()
+        self._sync_bookmark()
+
+    def _sync_bookmark(self) -> None:
+        bookmark = self._get_bookmark()
+        file_list = self._docks.file_list
+        for row in range(file_list.count()):
+            item = file_list.item(row)
+            assert item is not None
+            is_bookmarked = item.text() == bookmark
+            item.setIcon(
+                _utils.new_icon("phosphor/bookmark-simple-fill.svg")
+                if is_bookmarked
+                else QtGui.QIcon()
+            )
+            font = item.font()
+            font.setBold(is_bookmarked)
+            item.setFont(font)
+        current = self._file_list_image_path
+        can_bookmark = current is not None and current in self._loaded_image_paths
+        self._actions.toggle_bookmark.setEnabled(can_bookmark)
+        self._actions.toggle_bookmark.setChecked(can_bookmark and current == bookmark)
+        self._actions.go_to_bookmark.setEnabled(
+            bookmark is not None and bookmark in self.image_list and bookmark != current
+        )
+
+    def _toggle_current_image_bookmark(self) -> None:
+        current = self._file_list_image_path
+        if current is None:
+            return
+        self._set_bookmark(
+            image_path=None if self._get_bookmark() == current else current
+        )
+
+    def _go_to_bookmark(self) -> None:
+        bookmark = self._get_bookmark()
+        if bookmark is not None and bookmark in self.image_list:
+            self._docks.file_list.setCurrentRow(self.image_list.index(bookmark))
+
+    def _show_file_list_menu(self, pos: QtCore.QPoint, /) -> None:
+        item = self._docks.file_list.itemAt(pos)
+        if item is None:
+            return
+        image_path = item.text()
+        is_bookmarked = self._get_bookmark() == image_path
+        menu = QtWidgets.QMenu(self)
+        menu.addAction(
+            self.tr("Remove Bookmark") if is_bookmarked else self.tr("Set Bookmark"),
+            lambda: self._set_bookmark(
+                image_path=None if is_bookmarked else image_path
+            ),
+        )
+        # PySide6 type QMenu.exec() argument too narrowly
+        menu.exec(self._docks.file_list.mapToGlobal(pos))  # ty: ignore[invalid-argument-type]
 
     def _open_prev_image(self) -> None:
         if (path := self._get_neighbor_image_path(step=-1)) is not None:
@@ -3264,8 +3389,14 @@ class MainWindow(QtWidgets.QMainWindow):
                 # reload directly while retaining the prior item for rollback.
                 file_list = self._docks.file_list
                 previous_item = file_list.currentItem()
+                bookmark = self._get_bookmark()
+                start_row = (
+                    self.image_list.index(bookmark)
+                    if bookmark in self.image_list
+                    else 0
+                )
                 with QtCore.QSignalBlocker(file_list):
-                    file_list.setCurrentRow(0)
+                    file_list.setCurrentRow(start_row)
                 self._load_selected_image(file_list.currentItem(), previous_item)
                 file_list.repaint()
         else:

@@ -517,6 +517,22 @@ Shapes</source>
         <translation>Щёлкайте, чтобы ставить точки ломаной; Ctrl+щелчок ставит последнюю.</translation>
     </message>
     <message>
+        <source>&amp;Bookmark Image</source>
+        <translation>Закладка на изображение (&amp;B)</translation>
+    </message>
+    <message>
+        <source>Bookmark the current image to return to it later</source>
+        <translation>Поставить закладку на текущее изображение, чтобы вернуться к нему позже</translation>
+    </message>
+    <message>
+        <source>&amp;Go to Bookmark</source>
+        <translation>Перейти к закладке (&amp;G)</translation>
+    </message>
+    <message>
+        <source>Open the bookmarked image</source>
+        <translation>Открыть изображение с закладкой</translation>
+    </message>
+    <message>
         <source>Fit to &amp;Window</source>
         <translation>По размеру окна</translation>
     </message>
@@ -737,6 +753,14 @@ Switch the AI Text-to-Annotation model to &apos;SAM3 (smart)&apos;, or set the o
     <message>
         <source>Loaded %s</source>
         <translation>%s загружен</translation>
+    </message>
+    <message>
+        <source>Remove Bookmark</source>
+        <translation>Удалить закладку</translation>
+    </message>
+    <message>
+        <source>Set Bookmark</source>
+        <translation>Поставить закладку</translation>
     </message>
     <message>
         <source>Images and annotation files (%s)</source>

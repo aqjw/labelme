@@ -545,6 +545,22 @@ Shapes</source>
         <translation>クリックで折れ線の点を置き、Ctrl+クリックで最後の点を置きます。</translation>
     </message>
     <message>
+        <source>&amp;Bookmark Image</source>
+        <translation>画像をブックマーク(&amp;B)</translation>
+    </message>
+    <message>
+        <source>Bookmark the current image to return to it later</source>
+        <translation>現在の画像をブックマークして後で戻れるようにする</translation>
+    </message>
+    <message>
+        <source>&amp;Go to Bookmark</source>
+        <translation>ブックマークへ移動(&amp;G)</translation>
+    </message>
+    <message>
+        <source>Open the bookmarked image</source>
+        <translation>ブックマークした画像を開く</translation>
+    </message>
+    <message>
         <source>Fit to &amp;Window</source>
         <translation>ウィンドウに
 合わせる(&amp;W)</translation>
@@ -766,6 +782,14 @@ AI Text-to-Annotation モデルを &apos;SAM3 (smart)&apos; に切り替える�
     <message>
         <source>Loaded %s</source>
         <translation>%s を読み込みました</translation>
+    </message>
+    <message>
+        <source>Remove Bookmark</source>
+        <translation>ブックマークを削除</translation>
+    </message>
+    <message>
+        <source>Set Bookmark</source>
+        <translation>ブックマークを設定</translation>
     </message>
     <message>
         <source>Images and annotation files (%s)</source>

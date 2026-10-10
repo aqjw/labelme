@@ -532,6 +532,22 @@ Shapes</source>
         <translation>Haga clic para colocar puntos de la línea continua; Ctrl+clic coloca el último.</translation>
     </message>
     <message>
+        <source>&amp;Bookmark Image</source>
+        <translation>&amp;Marcar imagen</translation>
+    </message>
+    <message>
+        <source>Bookmark the current image to return to it later</source>
+        <translation>Marcar la imagen actual para volver a ella más tarde</translation>
+    </message>
+    <message>
+        <source>&amp;Go to Bookmark</source>
+        <translation>Ir al &amp;marcador</translation>
+    </message>
+    <message>
+        <source>Open the bookmarked image</source>
+        <translation>Abrir la imagen marcada</translation>
+    </message>
+    <message>
         <source>Fit to &amp;Window</source>
         <translation>Ajustar a &amp;ventana</translation>
     </message>
@@ -752,6 +768,14 @@ Cambie el modelo de AI Text-to-Annotation a &apos;SAM3 (smart)&apos; o establezc
     <message>
         <source>Loaded %s</source>
         <translation>Cargado %s</translation>
+    </message>
+    <message>
+        <source>Remove Bookmark</source>
+        <translation>Quitar marcador</translation>
+    </message>
+    <message>
+        <source>Set Bookmark</source>
+        <translation>Establecer marcador</translation>
     </message>
     <message>
         <source>Images and annotation files (%s)</source>

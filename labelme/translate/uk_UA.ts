@@ -429,6 +429,22 @@
         <translation>Відкрити попередній (утримуйте Ctrl+Shift, щоб скопіювати мітки)</translation>
     </message>
     <message>
+        <source>&amp;Bookmark Image</source>
+        <translation>&amp;Закладка на зображення</translation>
+    </message>
+    <message>
+        <source>Bookmark the current image to return to it later</source>
+        <translation>Поставити закладку на поточне зображення, щоб повернутися до нього пізніше</translation>
+    </message>
+    <message>
+        <source>&amp;Go to Bookmark</source>
+        <translation>&amp;Перейти до закладки</translation>
+    </message>
+    <message>
+        <source>Open the bookmarked image</source>
+        <translation>Відкрити зображення із закладкою</translation>
+    </message>
+    <message>
         <source>&amp;Brightness Contrast</source>
         <translation>&amp;Яскравість Контраст</translation>
     </message>
@@ -673,6 +689,14 @@ Switch the AI Text-to-Annotation model to &apos;SAM3 (smart)&apos;, or set the o
     <message>
         <source>Loaded %s</source>
         <translation>Завантажено %s</translation>
+    </message>
+    <message>
+        <source>Remove Bookmark</source>
+        <translation>Видалити закладку</translation>
+    </message>
+    <message>
+        <source>Set Bookmark</source>
+        <translation>Поставити закладку</translation>
     </message>
     <message>
         <source>Images and annotation files (%s)</source>
