@@ -237,6 +237,7 @@ class Canvas(QtWidgets.QWidget):
     _rotation_highlight: VertexHighlight | None
     _color_resolver: Callable[[str], tuple[int, int, int]] | None
     _point_size: int
+    _label_fill_alpha: int | None
     _point_type: Literal["square", "round"]
     _draft_palette: Palette
     _palette_cache: dict[str, Palette]
@@ -303,6 +304,7 @@ class Canvas(QtWidgets.QWidget):
         self._pan_anchor = None
         self._color_resolver: Callable[[str], tuple[int, int, int]] | None = None
         self._point_size: int = 8
+        self._label_fill_alpha = None
         self._point_type: Literal["square", "round"] = "round"
         self._draft_palette = _DEFAULT_PALETTE
         self._palette_cache = {}
@@ -359,6 +361,11 @@ class Canvas(QtWidgets.QWidget):
     def set_point_size(self, *, point_size: int) -> None:
         self._point_size = point_size
 
+    def set_label_fill_alpha(self, *, alpha: int) -> None:
+        # Одна прозрачность заливки для обычного и выделенного состояния
+        # фигур с меткой; выделение остаётся видно по белому контуру.
+        self._label_fill_alpha = alpha
+
     def _resolve_palette(self, label: str | None, /) -> Palette:
         if label is None or self._color_resolver is None:
             return _DEFAULT_PALETTE
@@ -368,7 +375,16 @@ class Canvas(QtWidgets.QWidget):
         # resolution into one lookup per distinct label per frame.
         palette = self._palette_cache.get(label)
         if palette is None:
-            palette = Palette.from_rgb(self._color_resolver(label))
+            rgb = self._color_resolver(label)
+            palette = (
+                Palette.from_rgb(rgb)
+                if self._label_fill_alpha is None
+                else Palette.from_rgb(
+                    rgb,
+                    fill_alpha=self._label_fill_alpha,
+                    select_fill_alpha=self._label_fill_alpha,
+                )
+            )
             self._palette_cache[label] = palette
         return palette
 

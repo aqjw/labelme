@@ -320,6 +320,8 @@ def test_migrate_keep_prev_brightness_contrast(
         ({"max_zoom": 50}, "max_zoom must be an integer of at least 100"),
         ({"max_zoom": 1500.5}, "max_zoom must be an integer of at least 100"),
         ({"max_zoom": True}, "max_zoom must be an integer of at least 100"),
+        ({"shape_fill_alpha": 256}, "shape_fill_alpha must be an integer between"),
+        ({"shape_fill_alpha": -1}, "shape_fill_alpha must be an integer between"),
     ],
     ids=[
         "validate_label",
@@ -331,6 +333,8 @@ def test_migrate_keep_prev_brightness_contrast(
         "max_zoom_below_default",
         "max_zoom_float",
         "max_zoom_bool",
+        "shape_fill_alpha_above_max",
+        "shape_fill_alpha_negative",
     ],
 )
 def test_load_config_rejects_invalid_override(*, overrides: dict, message: str) -> None:

@@ -59,6 +59,7 @@ def _validate_config_item(*, key_path: tuple[str, ...], value: object) -> None:
     MASK_POLYGONIZATION_DETAIL_MAX: Final = 100
     # Зум открывается на 100%, поэтому верхняя граница не может быть ниже.
     MAX_ZOOM_MIN: Final = 100
+    ALPHA_MAX: Final = 255
 
     key = key_path[-1]
     if key_path == ("label_flags",) and value is not None:
@@ -83,6 +84,14 @@ def _validate_config_item(*, key_path: tuple[str, ...], value: object) -> None:
     ):
         raise ValueError(
             f"max_zoom must be an integer of at least {MAX_ZOOM_MIN}, but got {value!r}"
+        )
+    if key_path == ("shape_fill_alpha",) and (
+        isinstance(value, bool)
+        or not isinstance(value, int)
+        or not 0 <= value <= ALPHA_MAX
+    ):
+        raise ValueError(
+            f"shape_fill_alpha must be an integer between 0 and 255, but got {value!r}"
         )
     if (
         key_path == ("ai", "text_model")

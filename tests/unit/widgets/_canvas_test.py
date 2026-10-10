@@ -2739,3 +2739,18 @@ def test_hover_transitions_repaint(
         painted.clear()
         canvas.set_editing(value=True)
         qtbot.waitUntil(lambda: bool(painted))
+
+
+def test_label_palette_uses_default_fill_alpha(*, canvas: Canvas) -> None:
+    canvas.set_color_resolver(resolver=lambda _label: (10, 20, 30))
+    palette = canvas._resolve_palette("cat")
+    assert palette.fill.alpha() == 128
+    assert palette.select_fill.alpha() == 155
+
+
+def test_label_palette_uses_configured_fill_alpha(*, canvas: Canvas) -> None:
+    canvas.set_color_resolver(resolver=lambda _label: (10, 20, 30))
+    canvas.set_label_fill_alpha(alpha=40)
+    palette = canvas._resolve_palette("cat")
+    assert palette.fill.getRgb() == (10, 20, 30, 40)
+    assert palette.select_fill.getRgb() == (10, 20, 30, 40)

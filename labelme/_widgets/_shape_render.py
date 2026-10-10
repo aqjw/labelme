@@ -55,13 +55,20 @@ class Palette:
     hvertex_fill: QtGui.QColor
 
     @classmethod
-    def from_rgb(cls, rgb: tuple[int, int, int], /) -> Palette:
+    def from_rgb(
+        cls,
+        rgb: tuple[int, int, int],
+        /,
+        *,
+        fill_alpha: int = 128,
+        select_fill_alpha: int = 155,
+    ) -> Palette:
         r, g, b = rgb
         return cls(
             line=QtGui.QColor(r, g, b),
-            fill=QtGui.QColor(r, g, b, 128),
+            fill=QtGui.QColor(r, g, b, fill_alpha),
             select_line=QtGui.QColor(255, 255, 255),
-            select_fill=QtGui.QColor(r, g, b, 155),
+            select_fill=QtGui.QColor(r, g, b, select_fill_alpha),
             vertex_fill=QtGui.QColor(r, g, b),
             hvertex_fill=QtGui.QColor(255, 255, 255),
         )

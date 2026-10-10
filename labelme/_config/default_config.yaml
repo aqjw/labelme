@@ -35,6 +35,8 @@ shape:
   hvertex_fill_color: [255, 255, 255, 255]
   point_size: 8
   show_labels: false
+# fill alpha (0-255) of labeled shapes, both normal and selected
+shape_fill_alpha: 40
 mask_polygonization:
   detail: 60
 ai:
