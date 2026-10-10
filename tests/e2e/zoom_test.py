@@ -14,6 +14,7 @@ from pytestqt.qtbot import QtBot
 
 from labelme._app import MainWindow
 from labelme._app import _ZoomMode
+from labelme._widgets._canvas import Canvas
 
 from ..conftest import close_or_pause
 from .conftest import MainWinFactory
@@ -846,3 +847,105 @@ def test_zoom_widget_honors_configured_max_zoom(*, main_win: MainWinFactory) -> 
     assert zoom_widget.maximum() == 2500
     zoom_widget.setValue(5000)
     assert zoom_widget.value() == 2500
+
+
+def _image_edges_in_viewport(*, canvas: Canvas) -> tuple[float, float, float, float]:
+    viewport = canvas._scroll_viewport()
+    assert viewport is not None
+    top_left = canvas.mapTo(
+        viewport,
+        canvas.transform_image_point_to_widget(QPointF(0, 0)).toPoint(),
+    )
+    bottom_right = canvas.mapTo(
+        viewport,
+        canvas.transform_image_point_to_widget(
+            QPointF(canvas.pixmap.width(), canvas.pixmap.height())
+        ).toPoint(),
+    )
+    return (
+        float(top_left.x()),
+        float(top_left.y()),
+        float(bottom_right.x()),
+        float(bottom_right.y()),
+    )
+
+
+def _scroll_canvas(
+    *, qtbot: QtBot, canvas: Canvas, angle_delta: QPoint, times: int
+) -> None:
+    pos = QPointF(canvas.visibleRegion().boundingRect().center())
+    for _ in range(times):
+        QtWidgets.QApplication.sendEvent(
+            canvas,
+            _make_wheel_event(
+                pos=pos,
+                angle_delta=angle_delta,
+                modifiers=Qt.KeyboardModifier.NoModifier,
+                phase=Qt.ScrollPhase.NoScrollPhase,
+            ),
+        )
+    qtbot.wait(50)
+
+
+@pytest.mark.gui
+@pytest.mark.parametrize(
+    "zoom_cursor_fraction",
+    [(0.02, 0.5), (0.98, 0.5), (0.5, 0.02), (0.5, 0.98)],
+    ids=["left_edge", "right_edge", "top_edge", "bottom_edge"],
+)
+def test_scroll_reaches_background_beyond_every_edge_after_focal_zoom(
+    *,
+    main_win: MainWinFactory,
+    qtbot: QtBot,
+    data_path: Path,
+    pause: bool,
+    zoom_cursor_fraction: tuple[float, float],
+) -> None:
+    pan_margin = 300
+    win = main_win(
+        file_or_dir=str(data_path / "raw/2011_000003.jpg"),
+        config_overrides={"canvas": {"pan_margin": pan_margin}},
+    )
+    show_window_and_wait_for_imagedata(qtbot=qtbot, win=win)
+    canvas = win._canvas_widgets.canvas
+    viewport = canvas._scroll_viewport()
+    assert viewport is not None
+
+    # Фокусный зум у края картинки: край уезжает от края вьюпорта, виден фон.
+    image_pos = QPointF(
+        canvas.pixmap.width() * zoom_cursor_fraction[0],
+        canvas.pixmap.height() * zoom_cursor_fraction[1],
+    )
+    for _ in range(12):
+        old_scale = canvas.scale
+        QtWidgets.QApplication.sendEvent(
+            canvas,
+            _make_wheel_event(
+                pos=QPointF(image_to_widget_pos(canvas=canvas, image_pos=image_pos)),
+                angle_delta=QPoint(0, 120),
+                modifiers=Qt.KeyboardModifier.ControlModifier,
+                phase=Qt.ScrollPhase.NoScrollPhase,
+            ),
+        )
+        qtbot.waitUntil(
+            lambda: canvas.scale != old_scale and canvas.size() == canvas.sizeHint()
+        )
+    assert canvas.pixmap.width() * canvas.scale > viewport.width()
+    assert canvas.pixmap.height() * canvas.scale > viewport.height()
+    # Дать раскладке скролл-области устояться после серии зумов.
+    qtbot.wait(100)
+
+    # Natural scroll: отрицательная дельта двигает вид вправо/вниз.
+    _scroll_canvas(
+        qtbot=qtbot, canvas=canvas, angle_delta=QPoint(-120, -120), times=500
+    )
+    _, _, right, bottom = _image_edges_in_viewport(canvas=canvas)
+    assert viewport.width() - right >= pan_margin - 1
+    assert viewport.height() - bottom >= pan_margin - 1
+
+    _scroll_canvas(qtbot=qtbot, canvas=canvas, angle_delta=QPoint(120, 120), times=500)
+    left, top, _, _ = _image_edges_in_viewport(canvas=canvas)
+    assert left >= pan_margin - 1
+    assert top >= pan_margin - 1
+
+    close_or_pause(qtbot=qtbot, widget=win, pause=pause)

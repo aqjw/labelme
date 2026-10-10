@@ -323,6 +323,7 @@ def test_migrate_keep_prev_brightness_contrast(
         ({"shape_fill_alpha": 256}, "shape_fill_alpha must be an integer between"),
         ({"shape_fill_alpha": -1}, "shape_fill_alpha must be an integer between"),
         ({"checked_labels": "cat"}, "checked_labels must be a list of strings"),
+        ({"canvas": {"pan_margin": -1}}, "canvas.pan_margin must be a non-negative"),
         ({"toggle_labels": [1]}, "toggle_labels must be a list of strings"),
     ],
     ids=[
@@ -338,6 +339,7 @@ def test_migrate_keep_prev_brightness_contrast(
         "shape_fill_alpha_above_max",
         "shape_fill_alpha_negative",
         "checked_labels_not_a_list",
+        "pan_margin_negative",
         "toggle_labels_not_strings",
     ],
 )

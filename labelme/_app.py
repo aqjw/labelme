@@ -1173,6 +1173,7 @@ class MainWindow(QtWidgets.QMainWindow):
         )
         canvas.set_point_size(point_size=self._config["shape"]["point_size"])
         canvas.set_label_fill_alpha(alpha=self._config["shape_fill_alpha"])
+        canvas.set_pan_margin(margin=self._config["canvas"]["pan_margin"])
         canvas.set_show_labels(value=self._config["shape"]["show_labels"])
         canvas.set_ai_existing_shape_suppression(
             enabled=self._config["ai"]["suppress_existing_shape_matches"]
@@ -2091,8 +2092,19 @@ class MainWindow(QtWidgets.QMainWindow):
     def _on_scroll_request(self, delta: int, orientation: Qt.Orientation, /) -> None:
         units = -delta * 0.1  # natural scroll
         bar = self._canvas_widgets.scroll_bars[orientation]
-        value = bar.value() + bar.singleStep() * units
-        self.set_scroll_value(orientation=orientation, value=value)
+        if self._zoom_mode != _ZoomMode.MANUAL_ZOOM:
+            value = bar.value() + bar.singleStep() * units
+            self.set_scroll_value(orientation=orientation, value=value)
+            return
+        # При ручном зуме прокрутка ведёт себя как панорама: упёршись в край
+        # скроллбара, продолжает сдвигать картинку и открывает фон за краем.
+        amount = -bar.singleStep() * units
+        step = (
+            QtCore.QPointF(amount, 0)
+            if orientation == Qt.Orientation.Horizontal
+            else QtCore.QPointF(0, amount)
+        )
+        self._move_canvas_view(step=step, constrain_to_center=True)
 
     def _on_pan_request(self, step: QtCore.QPoint, /) -> None:
         # Pan moves the viewport opposite to the cursor delta so the image

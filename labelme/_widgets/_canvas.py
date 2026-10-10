@@ -237,6 +237,7 @@ class Canvas(QtWidgets.QWidget):
     _rotation_highlight: VertexHighlight | None
     _color_resolver: Callable[[str], tuple[int, int, int]] | None
     _point_size: int
+    _pan_margin: float
     _label_fill_alpha: int | None
     _point_type: Literal["square", "round"]
     _draft_palette: Palette
@@ -305,6 +306,7 @@ class Canvas(QtWidgets.QWidget):
         self._color_resolver: Callable[[str], tuple[int, int, int]] | None = None
         self._point_size: int = 8
         self._label_fill_alpha = None
+        self._pan_margin = 0.0
         self._point_type: Literal["square", "round"] = "round"
         self._draft_palette = _DEFAULT_PALETTE
         self._palette_cache = {}
@@ -318,6 +320,11 @@ class Canvas(QtWidgets.QWidget):
 
     def set_show_labels(self, *, value: bool) -> None:
         self._show_labels = value
+
+    def set_pan_margin(self, *, margin: float) -> None:
+        # Сколько фона (в пикселях экрана) панорама гарантированно открывает
+        # за каждым краем картинки, независимо от зума.
+        self._pan_margin = margin
 
     def set_allow_out_of_bounds_points(self, *, value: bool) -> None:
         self._allow_out_of_bounds_points = value
@@ -333,10 +340,12 @@ class Canvas(QtWidgets.QWidget):
             # panning may bring it back but must not move it farther away.
             x_limit = max(
                 min(self.pixmap.width() * self.scale, viewport.width()) / 2,
+                self._pan_margin,
                 abs(self._view_offset.x()),
             )
             y_limit = max(
                 min(self.pixmap.height() * self.scale, viewport.height()) / 2,
+                self._pan_margin,
                 abs(self._view_offset.y()),
             )
             target = QPointF(

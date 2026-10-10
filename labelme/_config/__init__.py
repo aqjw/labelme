@@ -85,6 +85,12 @@ def _validate_config_item(*, key_path: tuple[str, ...], value: object) -> None:
         raise ValueError(
             f"max_zoom must be an integer of at least {MAX_ZOOM_MIN}, but got {value!r}"
         )
+    if key_path == ("canvas", "pan_margin") and (
+        isinstance(value, bool) or not isinstance(value, int) or value < 0
+    ):
+        raise ValueError(
+            f"canvas.pan_margin must be a non-negative integer, but got {value!r}"
+        )
     if key_path == ("shape_fill_alpha",) and (
         isinstance(value, bool)
         or not isinstance(value, int)
