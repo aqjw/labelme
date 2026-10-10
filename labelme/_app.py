@@ -1341,6 +1341,19 @@ class MainWindow(QtWidgets.QMainWindow):
         file_search_error.hide()
         file_list = QtWidgets.QListWidget()
         file_list.currentItemChanged.connect(self._load_selected_image)
+        # Длинные имена сокращаются посередине («начало…конец.jpg») вместо
+        # горизонтальной прокрутки; полный путь — в подсказке строки.
+        file_list.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
+        file_list.setTextElideMode(Qt.TextElideMode.ElideMiddle)
+        file_list.setItemDelegate(_ViewportClippedItemDelegate(file_list))
+        # Иконка закладки не выше строки текста, чтобы не раздувать её высоту.
+        icon_side = min(
+            file_list.style().pixelMetric(
+                QtWidgets.QStyle.PixelMetric.PM_SmallIconSize
+            ),
+            file_list.fontMetrics().height(),
+        )
+        file_list.setIconSize(QtCore.QSize(icon_side, icon_side))
         file_list_layout = QtWidgets.QVBoxLayout()
         file_list_layout.setContentsMargins(0, 0, 0, 0)
         file_list_layout.setSpacing(0)
@@ -1811,7 +1824,7 @@ class MainWindow(QtWidgets.QMainWindow):
         # Qt moves the selection before asking to save or staging the next
         # session, so retain the exact prior UI state for rollback.
         if not self._can_continue() or not self._load_file(
-            image_or_label_path=current_item.text()
+            image_or_label_path=file_list_item_image_path(current_item)
         ):
             self._restore_file_list_state(item=previous_item)
 
@@ -1951,9 +1964,14 @@ class MainWindow(QtWidgets.QMainWindow):
     def _record_saved_annotation(self, *, label_path: str) -> None:
         assert self._image_path is not None
         self._label_file_path = label_path
-        items = self._docks.file_list.findItems(
-            self._file_list_image_path or self._image_path, Qt.MatchFlag.MatchExactly
-        )
+        saved_image_path = self._file_list_image_path or self._image_path
+        file_list = self._docks.file_list
+        items = [
+            item
+            for row in range(file_list.count())
+            if (item := file_list.item(row)) is not None
+            and file_list_item_image_path(item) == saved_image_path
+        ]
         if len(items) > 1:
             raise RuntimeError("There are duplicate files.")
         if items:
@@ -2664,7 +2682,7 @@ class MainWindow(QtWidgets.QMainWindow):
         current_path = self._file_list_image_path
         # Closing an Image retains its selected row as the navigation origin.
         if current_path is None and (item := self._docks.file_list.currentItem()):
-            current_path = item.text()
+            current_path = file_list_item_image_path(item)
         try:
             current = paths.index(current_path or "")
         except ValueError:
@@ -2732,7 +2750,7 @@ class MainWindow(QtWidgets.QMainWindow):
         for row in range(file_list.count()):
             item = file_list.item(row)
             assert item is not None
-            is_bookmarked = item.text() == bookmark
+            is_bookmarked = file_list_item_image_path(item) == bookmark
             item.setIcon(
                 _utils.new_icon("phosphor/bookmark-simple-fill.svg")
                 if is_bookmarked
@@ -2766,7 +2784,7 @@ class MainWindow(QtWidgets.QMainWindow):
         item = self._docks.file_list.itemAt(pos)
         if item is None:
             return
-        image_path = item.text()
+        image_path = file_list_item_image_path(item)
         is_bookmarked = self._get_bookmark() == image_path
         menu = QtWidgets.QMenu(self)
         menu.addAction(
@@ -3458,7 +3476,7 @@ class MainWindow(QtWidgets.QMainWindow):
         for i in range(self._docks.file_list.count()):
             item = self._docks.file_list.item(i)
             assert item
-            lst.append(item.text())
+            lst.append(file_list_item_image_path(item))
         return lst
 
     def import_dropped_image_files(self, *, image_files: list[str]) -> None:
@@ -3508,7 +3526,9 @@ class MainWindow(QtWidgets.QMainWindow):
             for image_path in image_paths:
                 file_list.addItem(
                     _make_image_list_item(
-                        image_path=image_path, output_dir=self._output_dir
+                        image_path=image_path,
+                        output_dir=self._output_dir,
+                        root_dir=self._prev_opened_dir,
                     )
                 )
             if self._file_list_image_path in image_paths:
@@ -3631,10 +3651,57 @@ def _resolve_stored_image_path(*, image_path: str, label_dir: Path) -> str:
         return os.path.abspath(image_path)
 
 
+class _ViewportClippedItemDelegate(QtWidgets.QStyledItemDelegate):
+    # QListView отдаёт строке ширину всего текста, поэтому textElideMode сам
+    # по себе не срабатывает. Обрезаем область отрисовки по ширине вьюпорта —
+    # тогда стиль сокращает текст многоточием.
+    def __init__(self, view: QtWidgets.QAbstractItemView, /) -> None:
+        super().__init__(view)
+        self._view = view
+
+    def paint(
+        self,
+        painter: QtGui.QPainter,
+        option: QtWidgets.QStyleOptionViewItem,
+        index: QtCore.QModelIndex | QtCore.QPersistentModelIndex,
+        /,
+    ) -> None:
+        clipped = QtWidgets.QStyleOptionViewItem(option)
+        viewport_right = self._view.viewport().width() - 1
+        clipped.rect.setRight(min(clipped.rect.right(), viewport_right))
+        super().paint(painter, clipped, index)
+
+
+def file_list_item_image_path(item: QtWidgets.QListWidgetItem, /) -> str:
+    return item.data(Qt.ItemDataRole.UserRole)
+
+
+def _file_list_display_name(*, image_path: str, root_dir: str | None) -> str:
+    # Путь относительно открытой папки: для плоской папки это просто имя
+    # файла, для вложенных — «подпапка/имя», чтобы одинаковые имена не путались.
+    # Файлы вне папки (перетащенные) показываются по имени.
+    if root_dir is None:
+        return os.path.basename(image_path)
+    try:
+        relative = os.path.relpath(
+            os.path.abspath(image_path), os.path.abspath(root_dir)
+        )
+    except ValueError:
+        # На Windows между дисками относительного пути нет.
+        return os.path.basename(image_path)
+    if relative == os.pardir or relative.startswith(os.pardir + os.sep):
+        return os.path.basename(image_path)
+    return relative
+
+
 def _make_image_list_item(
-    *, image_path: str, output_dir: Path | None
+    *, image_path: str, output_dir: Path | None, root_dir: str | None
 ) -> QtWidgets.QListWidgetItem:
-    item = QtWidgets.QListWidgetItem(image_path)
+    item = QtWidgets.QListWidgetItem(
+        _file_list_display_name(image_path=image_path, root_dir=root_dir)
+    )
+    item.setData(Qt.ItemDataRole.UserRole, image_path)
+    item.setToolTip(image_path)
     item.setFlags(Qt.ItemFlag.ItemIsEnabled | Qt.ItemFlag.ItemIsSelectable)
     label_path = _resolve_label_path(
         image_or_label_path=image_path, output_dir=output_dir

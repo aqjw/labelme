@@ -110,7 +110,7 @@ def test_file_search_filters_loaded_images_without_changing_active_annotation(
     assert win.image_list == all_image_paths
     current_item = win._docks.file_list.currentItem()
     assert current_item is not None
-    assert current_item.text() == active_image_path
+    assert labelme._app.file_list_item_image_path(current_item) == active_image_path
     assert win._image_path == active_image_path
     assert win._annotation is active_annotation
     assert [
