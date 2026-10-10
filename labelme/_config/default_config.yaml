@@ -70,6 +70,8 @@ fit_to_content:
   row: false
 # canvas
 epsilon: 10.0
+# upper bound of the zoom level in percent
+max_zoom: 1500
 canvas:
   fill_drawing: true
   # None: do nothing

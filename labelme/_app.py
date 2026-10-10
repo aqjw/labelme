@@ -1160,7 +1160,7 @@ class MainWindow(QtWidgets.QMainWindow):
         return _StatusBarWidgets(message=message, stats=stats, save=save, retry=retry)
 
     def _setup_canvas(self) -> _CanvasWidgets:
-        zoom_widget = ZoomWidget()
+        zoom_widget = ZoomWidget(max_zoom=self._config["max_zoom"])
 
         canvas = Canvas(
             epsilon=self._config["epsilon"],

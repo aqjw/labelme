@@ -838,3 +838,11 @@ def test_percentage_entry_preserves_mode_and_updates_canvas(
     qtbot.keyClick(widget, Qt.Key.Key_Return)
     assert scales == pytest.approx([0.01, 0.12, 1.25, 1.255, 1.255])
     assert _win._zoom_mode == mode
+
+
+def test_zoom_widget_honors_configured_max_zoom(*, main_win: MainWinFactory) -> None:
+    win = main_win(config_overrides={"max_zoom": 2500})
+    zoom_widget = win._canvas_widgets.zoom_widget
+    assert zoom_widget.maximum() == 2500
+    zoom_widget.setValue(5000)
+    assert zoom_widget.value() == 2500

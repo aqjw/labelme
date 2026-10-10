@@ -4,10 +4,10 @@ from PySide6 import QtWidgets
 
 
 class ZoomWidget(QtWidgets.QDoubleSpinBox):
-    def __init__(self) -> None:
+    def __init__(self, *, max_zoom: int) -> None:
         super().__init__()
         self.setDecimals(1)
-        self.setRange(1, 1000)
+        self.setRange(1, max_zoom)
         self.setSuffix(" %")
         self.setValue(100)
 

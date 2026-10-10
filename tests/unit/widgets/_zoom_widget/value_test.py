@@ -8,7 +8,7 @@ from labelme._widgets._zoom_widget import ZoomWidget
 
 @pytest.fixture
 def widget(*, qtbot: QtBot) -> ZoomWidget:
-    zoom_widget = ZoomWidget()
+    zoom_widget = ZoomWidget(max_zoom=1000)
     qtbot.addWidget(zoom_widget)
     return zoom_widget
 
@@ -32,6 +32,13 @@ def test_zoom_widget_clamps_to_range(*, widget: ZoomWidget) -> None:
     assert widget.value() == 1000
     widget.setValue(0)
     assert widget.value() == 1.0
+
+
+def test_zoom_widget_clamps_to_configured_max_zoom(*, qtbot: QtBot) -> None:
+    zoom_widget = ZoomWidget(max_zoom=1500)
+    qtbot.addWidget(zoom_widget)
+    zoom_widget.setValue(10000)
+    assert zoom_widget.value() == 1500
 
 
 def test_zoom_widget_scale_is_percent_as_factor(*, widget: ZoomWidget) -> None:

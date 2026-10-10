@@ -317,6 +317,9 @@ def test_migrate_keep_prev_brightness_contrast(
             {"shortcuts": {"not_a_real_shortcut": "Ctrl+Z"}},
             "Unexpected key in config: not_a_real_shortcut",
         ),
+        ({"max_zoom": 50}, "max_zoom must be an integer of at least 100"),
+        ({"max_zoom": 1500.5}, "max_zoom must be an integer of at least 100"),
+        ({"max_zoom": True}, "max_zoom must be an integer of at least 100"),
     ],
     ids=[
         "validate_label",
@@ -325,6 +328,9 @@ def test_migrate_keep_prev_brightness_contrast(
         "labels_not_a_list",
         "unknown_key",
         "unknown_key_nested",
+        "max_zoom_below_default",
+        "max_zoom_float",
+        "max_zoom_bool",
     ],
 )
 def test_load_config_rejects_invalid_override(*, overrides: dict, message: str) -> None:
