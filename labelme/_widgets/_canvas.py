@@ -1132,7 +1132,10 @@ class Canvas(QtWidgets.QWidget):
     ) -> None:
         mode = self.create_mode
         if mode in ("polygon", "linestrip", "ai_points_to_shape"):
-            self._commit_preview_vertex(current=current, event=event)
+            self._commit_preview_vertex(
+                current=current,
+                is_final_click=self._is_final_open_path_click(event=event),
+            )
         elif mode == "oriented_rectangle":
             if len(current.points) == ORIENTED_RECTANGLE_POINT_COUNT:
                 self._finalize()
@@ -1146,7 +1149,7 @@ class Canvas(QtWidgets.QWidget):
             self._finalize()
 
     def _commit_preview_vertex(
-        self, *, current: _DraftShape, event: QtGui.QMouseEvent
+        self, *, current: _DraftShape, is_final_click: bool
     ) -> None:
         # The preview segment runs from the last committed vertex to the cursor.
         # A click promotes its cursor end into the draft, and the next preview
@@ -1157,12 +1160,24 @@ class Canvas(QtWidgets.QWidget):
             vertex, label=label, autoclose=self.create_mode == "polygon"
         )
         self._current = current
-        if current.closed or self._is_final_open_path_click(event=event):
+        if current.closed or is_final_click:
             self._finalize()
             return
         self._line = dataclasses.replace(
             self._line, points=(vertex, vertex), point_labels=(label, label)
         )
+
+    def _add_polygon_point_at_cursor(self) -> None:
+        # Space в режиме полигона ставит вершину под курсором, как клик.
+        # Повтор без движения курсора (в т.ч. автоповтор зажатой клавиши)
+        # игнорируется, чтобы не плодить вершины нулевой длины.
+        current = self._current
+        if current is None:
+            return
+        if self._line.points[1] == current.points[-1]:
+            return
+        self._commit_preview_vertex(current=current, is_final_click=False)
+        self.update()
 
     def _is_final_open_path_click(self, *, event: QtGui.QMouseEvent) -> bool:
         # A polygon ends by returning to its first vertex; the modes with no
@@ -1991,6 +2006,8 @@ class Canvas(QtWidgets.QWidget):
         if self.mode == _CanvasMode.CREATE:
             if key == Qt.Key.Key_Escape and self._current is not None:
                 self._cancel_current_shape()
+            elif key == Qt.Key.Key_Space and self.create_mode == "polygon":
+                self._add_polygon_point_at_cursor()
             elif (
                 key in (Qt.Key.Key_Return, Qt.Key.Key_Space) and self._can_close_shape()
             ):

@@ -959,3 +959,58 @@ def test_square_creation_resize_save_and_reopen(
     raw_win.mark_clean()
     raw_win.close()
     close_or_pause(qtbot=qtbot, widget=reopened, pause=pause)
+
+
+def _move_to_canvas_fraction(
+    *, qtbot: QtBot, canvas: Canvas, xy: tuple[float, float]
+) -> None:
+    pixmap = canvas.pixmap
+    image_pos = QPointF(pixmap.width() * xy[0], pixmap.height() * xy[1])
+    qtbot.mouseMove(canvas, pos=image_to_widget_pos(canvas=canvas, image_pos=image_pos))
+    qtbot.wait(50)
+
+
+@pytest.mark.gui
+def test_space_adds_polygon_point_at_cursor(
+    *,
+    qtbot: QtBot,
+    raw_win: MainWindow,
+    tmp_path: Path,
+    pause: bool,
+) -> None:
+    canvas = raw_win._canvas_widgets.canvas
+    raw_win._switch_canvas_mode(edit=False, create_mode="polygon")
+    qtbot.wait(50)
+
+    first = (0.2, 0.2)
+    click_canvas_fraction(qtbot=qtbot, canvas=canvas, xy=first)
+
+    _move_to_canvas_fraction(qtbot=qtbot, canvas=canvas, xy=(0.8, 0.2))
+    qtbot.keyPress(canvas, Qt.Key.Key_Space)
+    assert canvas._current is not None
+    assert len(canvas._current.points) == 2
+
+    # Repeated Space without moving the cursor adds no zero-length edge.
+    qtbot.keyPress(canvas, Qt.Key.Key_Space)
+    assert len(canvas._current.points) == 2
+
+    _move_to_canvas_fraction(qtbot=qtbot, canvas=canvas, xy=(0.8, 0.8))
+    qtbot.keyPress(canvas, Qt.Key.Key_Space)
+    assert len(canvas._current.points) == 3
+
+    # Space on the first vertex closes the polygon, like a click there.
+    label = "space_polygon"
+    submit_label_dialog(qtbot=qtbot, label_dialog=raw_win._label_dialog, label=label)
+    _move_to_canvas_fraction(qtbot=qtbot, canvas=canvas, xy=first)
+    qtbot.keyPress(canvas, Qt.Key.Key_Space)
+
+    def shape_committed() -> None:
+        assert any(s.label == label for s in canvas.shapes)
+
+    qtbot.waitUntil(shape_committed)
+    shape = next(s for s in canvas.shapes if s.label == label)
+    assert shape.shape_type == "polygon"
+    assert len(shape.points) == 3
+
+    _save_and_check(win=raw_win, tmp_path=tmp_path)
+    close_or_pause(qtbot=qtbot, widget=raw_win, pause=pause)
