@@ -524,3 +524,32 @@ def test_resolve_stored_image_path_falls_back_across_real_windows_drives() -> No
         )
         == r"D:\imgs\img.png"
     )
+
+
+@pytest.mark.parametrize(
+    ("content", "expected"),
+    [
+        ('{"flags": {"checked": false}, "shapes": []}', False),
+        ('{"flags": {"checked": true}, "shapes": []}', True),
+        ('{"flags": {}, "shapes": []}', True),
+        ('{"shapes": []}', True),
+        ("{not json", False),
+        ("[]", False),
+    ],
+    ids=[
+        "checked_false",
+        "checked_true",
+        "no_checked_key",
+        "no_flags",
+        "corrupt",
+        "not_an_object",
+    ],
+)
+def test_is_page_checked(*, tmp_path: Path, content: str, expected: bool) -> None:
+    label_path = tmp_path / "page.json"
+    label_path.write_text(content)
+    assert _app._is_page_checked(label_path=str(label_path)) is expected
+
+
+def test_is_page_checked_without_label_file(*, tmp_path: Path) -> None:
+    assert _app._is_page_checked(label_path=str(tmp_path / "missing.json")) is False

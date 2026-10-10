@@ -3,6 +3,7 @@ from __future__ import annotations
 import copy
 import enum
 import functools
+import json
 import math
 import os
 import platform
@@ -2034,7 +2035,13 @@ class MainWindow(QtWidgets.QMainWindow):
         if len(items) > 1:
             raise RuntimeError("There are duplicate files.")
         if items:
-            items[0].setCheckState(Qt.CheckState.Checked)
+            # Состояние берём из только что записанного файла: сохранение могло
+            # изменить флаг страницы checked.
+            items[0].setCheckState(
+                Qt.CheckState.Checked
+                if _is_page_checked(label_path=label_path)
+                else Qt.CheckState.Unchecked
+            )
         self._failed_save_path = None
         self._status_bar.save.setText(self.tr("Saved"))
         self._status_bar.save.setToolTip(label_path)
@@ -3770,9 +3777,30 @@ def _make_image_list_item(
     label_path = _resolve_label_path(
         image_or_label_path=image_path, output_dir=output_dir
     )
-    has_label = QtCore.QFile.exists(label_path)
-    item.setCheckState(Qt.CheckState.Checked if has_label else Qt.CheckState.Unchecked)
+    item.setCheckState(
+        Qt.CheckState.Checked
+        if _is_page_checked(label_path=label_path)
+        else Qt.CheckState.Unchecked
+    )
     return item
+
+
+def _is_page_checked(*, label_path: str) -> bool:
+    # Галочка File List: страница проверена, если файл разметки есть и его флаг
+    # checked не равен false. Без ключа checked — ручная разметка, она считается
+    # проверенной. Нет файла или он битый — не проверена. Читается при каждом
+    # построении списка, без кэша, чтобы не расходиться с диском.
+    try:
+        with open(label_path, encoding="utf-8") as f:
+            data = json.load(f)
+    except (OSError, ValueError):
+        return False
+    if not isinstance(data, dict):
+        return False
+    flags = data.get("flags")
+    if not isinstance(flags, dict):
+        return True
+    return flags.get(_PAGE_CHECKED_FLAG) is not False
 
 
 def _shape_to_dict(shape: Shape, /) -> ShapeDict:

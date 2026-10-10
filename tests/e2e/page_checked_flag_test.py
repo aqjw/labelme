@@ -10,6 +10,7 @@ from PySide6.QtCore import Qt
 from pytestqt.qtbot import QtBot
 
 from labelme._app import MainWindow
+from labelme._app import file_list_item_image_path
 
 from ..conftest import close_or_pause
 from .conftest import MainWinFactory
@@ -178,5 +179,53 @@ def test_page_that_failed_to_load_is_not_marked(
     qtbot.waitUntil(lambda: Path(win._image_path or "").stem == _UNCHECKED)
 
     assert (pages_dir / f"{_UNCHECKED_LAST}.json").read_text() == corrupt
+
+    close_or_pause(qtbot=qtbot, widget=win, pause=pause)
+
+
+def _file_list_check_state(*, win: MainWindow, stem: str) -> Qt.CheckState:
+    file_list = win._docks.file_list
+    for row in range(file_list.count()):
+        item = file_list.item(row)
+        assert item is not None
+        if Path(file_list_item_image_path(item)).stem == stem:
+            return item.checkState()
+    raise AssertionError(f"{stem} is not in the File List")
+
+
+@pytest.mark.gui
+def test_file_list_checkmark_follows_page_checked_flag(
+    *,
+    main_win: MainWinFactory,
+    qtbot: QtBot,
+    pages_dir: Path,
+    pause: bool,
+) -> None:
+    win = _open_pages(
+        main_win=main_win, qtbot=qtbot, pages_dir=pages_dir, config_overrides=None
+    )
+    assert _file_list_check_state(win=win, stem=_UNCHECKED) == Qt.CheckState.Unchecked
+    assert _file_list_check_state(win=win, stem=_MANUAL) == Qt.CheckState.Checked
+    assert (
+        _file_list_check_state(win=win, stem=_UNCHECKED_LAST) == Qt.CheckState.Unchecked
+    )
+
+    # Без перезагрузки папки: галочка обновляется сохранением при уходе.
+    _go_next(qtbot=qtbot, win=win)
+    assert _file_list_check_state(win=win, stem=_UNCHECKED) == Qt.CheckState.Checked
+
+    # Ручной клик по флагу с автосохранением тоже обновляет галочку.
+    _go_next(qtbot=qtbot, win=win)
+    assert Path(win._image_path or "").stem == _UNCHECKED_LAST
+    _set_checked_flag(win=win, state=Qt.CheckState.Checked)
+    qtbot.waitUntil(
+        lambda: _file_list_check_state(win=win, stem=_UNCHECKED_LAST)
+        == Qt.CheckState.Checked
+    )
+    _set_checked_flag(win=win, state=Qt.CheckState.Unchecked)
+    qtbot.waitUntil(
+        lambda: _file_list_check_state(win=win, stem=_UNCHECKED_LAST)
+        == Qt.CheckState.Unchecked
+    )
 
     close_or_pause(qtbot=qtbot, widget=win, pause=pause)
