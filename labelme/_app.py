@@ -228,6 +228,9 @@ class MainWindow(QtWidgets.QMainWindow):
     # Флаг страницы «checked» был false при загрузке и пользователь его не
     # трогал — при уходе со страницы он проставится автоматически.
     _page_check_pending: bool = False
+    # Неокруглённый зум последнего Ctrl+колеса: виджет хранит 1 знак после
+    # запятой, и мелкие шаги тачпада иначе терялись бы при округлении.
+    _wheel_zoom_exact: float | None = None
     _shape_clipboard: ShapeClipboard
     _zoom_mode: _ZoomMode
     _prev_opened_dir: str | None
@@ -2322,7 +2325,24 @@ class MainWindow(QtWidgets.QMainWindow):
         self._set_zoom(value=zoom_value, pos=pos)
 
     def _zoom_requested(self, delta: int, pos: QtCore.QPointF, /) -> None:
-        self._add_zoom(increment=1.1 if delta > 0 else 0.9, pos=pos)
+        # angleDelta одного щелчка колеса мыши (1/8 градуса × 15°).
+        WHEEL_NOTCH_DELTA: Final = 120
+        zoom_widget = self._canvas_widgets.zoom_widget
+        current = zoom_widget.value()
+        exact = self._wheel_zoom_exact
+        # Продолжаем от точного значения, только если зум с тех пор не меняли
+        # иначе (ввод, кнопки, подгонка под окно).
+        if exact is None or abs(exact - current) > 0.5 * 10 ** -zoom_widget.decimals():
+            exact = current
+        # Зум пропорционален прокрутке: щелчок колеса даёт один шаг, а тачпад,
+        # шлющий много мелких событий, суммарно зумит на пройденное расстояние.
+        step = self._config["canvas"]["zoom_wheel_step"]
+        target = exact * step ** (delta / WHEEL_NOTCH_DELTA)
+        self._wheel_zoom_exact = min(
+            max(target, zoom_widget.minimum()), zoom_widget.maximum()
+        )
+        self._zoom_mode = _ZoomMode.MANUAL_ZOOM
+        self._set_zoom(value=self._wheel_zoom_exact, pos=pos)
 
     def set_fit_window_mode(self, value: bool = True, /) -> None:  # noqa: FBT001, FBT002 -- QAction.triggered slot
         target = _ZoomMode.FIT_WINDOW if value else _ZoomMode.MANUAL_ZOOM

@@ -325,6 +325,11 @@ def test_migrate_keep_prev_brightness_contrast(
         ({"checked_labels": "cat"}, "checked_labels must be a list of strings"),
         ({"canvas": {"pan_margin": -1}}, "canvas.pan_margin must be a non-negative"),
         ({"toggle_labels": [1]}, "toggle_labels must be a list of strings"),
+        ({"canvas": {"zoom_wheel_step": 1}}, "canvas.zoom_wheel_step must be a number"),
+        (
+            {"canvas": {"zoom_wheel_step": True}},
+            "canvas.zoom_wheel_step must be a number",
+        ),
     ],
     ids=[
         "validate_label",
@@ -341,6 +346,8 @@ def test_migrate_keep_prev_brightness_contrast(
         "checked_labels_not_a_list",
         "pan_margin_negative",
         "toggle_labels_not_strings",
+        "zoom_wheel_step_not_above_one",
+        "zoom_wheel_step_bool",
     ],
 )
 def test_load_config_rejects_invalid_override(*, overrides: dict, message: str) -> None:

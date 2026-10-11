@@ -818,6 +818,54 @@ def test_ctrl_wheel_keeps_image_point_under_cursor(
 
 
 @pytest.mark.gui
+@pytest.mark.parametrize(
+    ("zoom_wheel_step", "start_zoom", "angle_deltas", "expected_factor"),
+    [
+        pytest.param(1.1, 200, [120], 1.1, id="mouse_notch_in"),
+        pytest.param(1.1, 200, [-120], 1 / 1.1, id="mouse_notch_out"),
+        pytest.param(1.1, 200, [10] * 12, 1.1, id="trackpad_steps_sum_to_one_notch"),
+        pytest.param(1.05, 200, [120, 120], 1.05**2, id="configured_step"),
+        # На 1% шаг тачпада меньше точности виджета и без переноса точного
+        # значения округлялся бы обратно.
+        pytest.param(1.1, 1, [10] * 12, 1.1, id="trackpad_steps_at_min_zoom"),
+    ],
+)
+def test_ctrl_wheel_zoom_is_proportional_to_scroll_distance(
+    *,
+    main_win: MainWinFactory,
+    qtbot: QtBot,
+    data_path: Path,
+    pause: bool,
+    zoom_wheel_step: float,
+    start_zoom: float,
+    angle_deltas: list[int],
+    expected_factor: float,
+) -> None:
+    win = main_win(
+        file_or_dir=str(data_path / "raw/2011_000003.jpg"),
+        config_overrides={"canvas": {"zoom_wheel_step": zoom_wheel_step}},
+    )
+    show_window_and_wait_for_imagedata(qtbot=qtbot, win=win)
+    canvas = win._canvas_widgets.canvas
+    zoom_widget = win._canvas_widgets.zoom_widget
+    win._set_zoom(value=start_zoom, pos=None)
+
+    for angle_delta in angle_deltas:
+        canvas.wheelEvent(
+            _make_wheel_event(
+                pos=QPointF(canvas.width() / 2, canvas.height() / 2),
+                angle_delta=QPoint(0, angle_delta),
+                modifiers=Qt.KeyboardModifier.ControlModifier,
+                phase=Qt.ScrollPhase.NoScrollPhase,
+            )
+        )
+
+    assert zoom_widget.value() == pytest.approx(start_zoom * expected_factor, abs=0.05)
+
+    close_or_pause(qtbot=qtbot, widget=win, pause=pause)
+
+
+@pytest.mark.gui
 @pytest.mark.parametrize("mode", [_ZoomMode.MANUAL_ZOOM, _ZoomMode.FIT_WINDOW])
 def test_percentage_entry_preserves_mode_and_updates_canvas(
     *,

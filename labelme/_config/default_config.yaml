@@ -87,6 +87,9 @@ canvas:
   num_backups: 10
   # background (screen px) reachable by panning beyond each image edge
   pan_margin: 300
+  # zoom factor per mouse wheel notch with Ctrl/Cmd; trackpads zoom in
+  # proportion to their scroll distance, so a lower value slows them down
+  zoom_wheel_step: 1.1
   # allow annotation points to extend beyond the image boundary
   allow_out_of_bounds_points: false
   # show crosshair

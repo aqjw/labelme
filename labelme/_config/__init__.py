@@ -91,6 +91,12 @@ def _validate_config_item(*, key_path: tuple[str, ...], value: object) -> None:
         raise ValueError(
             f"canvas.pan_margin must be a non-negative integer, but got {value!r}"
         )
+    if key_path == ("canvas", "zoom_wheel_step") and (
+        isinstance(value, bool) or not isinstance(value, int | float) or not value > 1
+    ):
+        raise ValueError(
+            f"canvas.zoom_wheel_step must be a number greater than 1, but got {value!r}"
+        )
     if key_path == ("shape_fill_alpha",) and (
         isinstance(value, bool)
         or not isinstance(value, int)
