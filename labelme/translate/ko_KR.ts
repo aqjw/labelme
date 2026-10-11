@@ -528,6 +528,14 @@ Shapes</source>
         <translation>선택한 마스크 도형을 하나로 병합</translation>
     </message>
     <message>
+        <source>Convert to Polygon</source>
+        <translation>다각형으로 변환</translation>
+    </message>
+    <message>
+        <source>Convert the selected rectangles into editable polygons</source>
+        <translation>선택한 사각형을 편집 가능한 다각형으로 변환</translation>
+    </message>
+    <message>
         <source>Delete Selected Vertex</source>
         <translation>선택한 꼭짓점 삭제</translation>
     </message>

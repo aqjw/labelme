@@ -550,6 +550,14 @@ Formen</translation>
         <translation>Ausgewählte Maskenformen zu einer zusammenführen</translation>
     </message>
     <message>
+        <source>Convert to Polygon</source>
+        <translation>In Polygon umwandeln</translation>
+    </message>
+    <message>
+        <source>Convert the selected rectangles into editable polygons</source>
+        <translation>Ausgewählte Rechtecke in bearbeitbare Polygone umwandeln</translation>
+    </message>
+    <message>
         <source>Delete Selected Vertex</source>
         <translation>Ausgewählten Eckpunkt löschen</translation>
     </message>

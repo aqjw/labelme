@@ -528,6 +528,14 @@ Shapes</source>
         <translation>Scal zaznaczone kształty maski w jeden</translation>
     </message>
     <message>
+        <source>Convert to Polygon</source>
+        <translation>Konwertuj na wielokąt</translation>
+    </message>
+    <message>
+        <source>Convert the selected rectangles into editable polygons</source>
+        <translation>Konwertuj zaznaczone prostokąty na edytowalne wielokąty</translation>
+    </message>
+    <message>
         <source>Delete Selected Vertex</source>
         <translation>Usuń zaznaczony wierzchołek</translation>
     </message>

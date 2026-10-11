@@ -528,6 +528,14 @@ Shapes</source>
         <translation>ادغام شکل‌های ماسک انتخاب شده در یک شکل</translation>
     </message>
     <message>
+        <source>Convert to Polygon</source>
+        <translation>تبدیل به چندضلعی</translation>
+    </message>
+    <message>
+        <source>Convert the selected rectangles into editable polygons</source>
+        <translation>تبدیل مستطیل‌های انتخاب‌شده به چندضلعی‌های قابل ویرایش</translation>
+    </message>
+    <message>
         <source>Delete Selected Vertex</source>
         <translation>حذف رأس انتخاب‌شده</translation>
     </message>

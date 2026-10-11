@@ -534,6 +534,14 @@ Shapes</source>
         <translation>将选中的掩码形状合并为一个</translation>
     </message>
     <message>
+        <source>Convert to Polygon</source>
+        <translation>转换为多边形</translation>
+    </message>
+    <message>
+        <source>Convert the selected rectangles into editable polygons</source>
+        <translation>将所选矩形转换为可编辑的多边形</translation>
+    </message>
+    <message>
         <source>Delete Selected Vertex</source>
         <translation>删除选中的顶点</translation>
     </message>

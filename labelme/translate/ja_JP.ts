@@ -541,6 +541,14 @@ Shapes</source>
         <translation>選択したマスク図形を1つに結合</translation>
     </message>
     <message>
+        <source>Convert to Polygon</source>
+        <translation>ポリゴンに変換</translation>
+    </message>
+    <message>
+        <source>Convert the selected rectangles into editable polygons</source>
+        <translation>選択した矩形を編集可能なポリゴンに変換</translation>
+    </message>
+    <message>
         <source>Delete Selected Vertex</source>
         <translation>選択した頂点を削除</translation>
     </message>

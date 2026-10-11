@@ -240,6 +240,54 @@ def test_merge_mask_shapes(
 
 
 @pytest.mark.gui
+def test_convert_rectangle_to_polygon(
+    *,
+    main_win: MainWinFactory,
+    qtbot: QtBot,
+    data_path: Path,
+    tmp_path: Path,
+    pause: bool,
+) -> None:
+    win, canvas = _open_and_select_shape(
+        main_win=main_win,
+        qtbot=qtbot,
+        data_path=data_path,
+        config_overrides=dict(auto_save=True),
+        output_dir=str(tmp_path),
+    )
+    assert canvas.selected_shapes[0].shape_type == "polygon"
+    assert not win._actions.convert_to_polygon.isEnabled()
+    assert win._actions.convert_to_polygon in canvas.context_menu.actions()
+
+    rectangle_index = 1
+    rectangle = canvas.shapes[rectangle_index]
+    assert rectangle.shape_type == "rectangle"
+    (x1, y1), (x2, y2) = rectangle.points.tolist()
+    select_shape(qtbot=qtbot, canvas=canvas, shape_index=rectangle_index)
+    assert win._actions.convert_to_polygon.isEnabled()
+
+    win._actions.convert_to_polygon.trigger()
+    qtbot.waitUntil(lambda: not win._save_writer.is_busy)
+
+    polygon = canvas.shapes[rectangle_index]
+    assert polygon.shape_type == "polygon"
+    assert polygon.label == rectangle.label
+    assert polygon.points.tolist() == [[x1, y1], [x2, y1], [x2, y2], [x1, y2]]
+    assert canvas.selected_shapes == [polygon]
+    assert not win._actions.convert_to_polygon.isEnabled()
+    saved = read_label_file(filename=str(tmp_path / "2011_000003.json"))
+    assert saved.shapes[rectangle_index]["shape_type"] == "polygon"
+    assert len(saved.shapes[rectangle_index]["points"]) == 4
+
+    win.undo_shape_edit()
+    qtbot.wait(50)
+    assert canvas.shapes[rectangle_index].shape_type == "rectangle"
+    assert canvas.shapes[rectangle_index].points.tolist() == [[x1, y1], [x2, y2]]
+
+    close_or_pause(qtbot=qtbot, widget=win, pause=pause)
+
+
+@pytest.mark.gui
 def test_delete_shape(
     *,
     main_win: MainWinFactory,

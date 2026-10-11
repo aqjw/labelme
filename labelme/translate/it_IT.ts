@@ -534,6 +534,14 @@ forme</translation>
         <translation>Unisci le forme maschera selezionate in una</translation>
     </message>
     <message>
+        <source>Convert to Polygon</source>
+        <translation>Converti in poligono</translation>
+    </message>
+    <message>
+        <source>Convert the selected rectangles into editable polygons</source>
+        <translation>Converti i rettangoli selezionati in poligoni modificabili</translation>
+    </message>
+    <message>
         <source>Delete Selected Vertex</source>
         <translation>Elimina vertice selezionato</translation>
     </message>

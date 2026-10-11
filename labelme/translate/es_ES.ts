@@ -528,6 +528,14 @@ Shapes</source>
         <translation>Combinar las formas de máscara seleccionadas en una</translation>
     </message>
     <message>
+        <source>Convert to Polygon</source>
+        <translation>Convertir en polígono</translation>
+    </message>
+    <message>
+        <source>Convert the selected rectangles into editable polygons</source>
+        <translation>Convertir los rectángulos seleccionados en polígonos editables</translation>
+    </message>
+    <message>
         <source>Delete Selected Vertex</source>
         <translation>Eliminar vértice seleccionado</translation>
     </message>

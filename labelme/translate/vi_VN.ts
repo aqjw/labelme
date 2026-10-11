@@ -528,6 +528,14 @@ Shapes</source>
         <translation>Gộp các hình dạng mask đã chọn thành một</translation>
     </message>
     <message>
+        <source>Convert to Polygon</source>
+        <translation>Chuyển thành đa giác</translation>
+    </message>
+    <message>
+        <source>Convert the selected rectangles into editable polygons</source>
+        <translation>Chuyển các hình chữ nhật đã chọn thành đa giác có thể chỉnh sửa</translation>
+    </message>
+    <message>
         <source>Delete Selected Vertex</source>
         <translation>Xóa Đỉnh đã Chọn</translation>
     </message>

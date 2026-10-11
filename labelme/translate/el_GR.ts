@@ -376,6 +376,14 @@
         <translation>Συγχώνευση των επιλεγμένων σχημάτων μάσκας σε ένα</translation>
     </message>
     <message>
+        <source>Convert to Polygon</source>
+        <translation>Μετατροπή σε πολύγωνο</translation>
+    </message>
+    <message>
+        <source>Convert the selected rectangles into editable polygons</source>
+        <translation>Μετατροπή των επιλεγμένων ορθογωνίων σε επεξεργάσιμα πολύγωνα</translation>
+    </message>
+    <message>
         <source>Undo last point</source>
         <translation>Τελευταίο σημείο</translation>
     </message>

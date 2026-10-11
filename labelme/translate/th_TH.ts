@@ -528,6 +528,14 @@ Shapes</source>
         <translation>รวมรูปร่างมาสก์ที่เลือกเป็นรูปร่างเดียว</translation>
     </message>
     <message>
+        <source>Convert to Polygon</source>
+        <translation>แปลงเป็นรูปหลายเหลี่ยม</translation>
+    </message>
+    <message>
+        <source>Convert the selected rectangles into editable polygons</source>
+        <translation>แปลงสี่เหลี่ยมที่เลือกเป็นรูปหลายเหลี่ยมที่แก้ไขได้</translation>
+    </message>
+    <message>
         <source>Delete Selected Vertex</source>
         <translation>ลบจุดยอดที่เลือก</translation>
     </message>

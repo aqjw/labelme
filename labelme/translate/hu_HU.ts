@@ -550,6 +550,14 @@ Shapes</source>
         <translation>A kijelölt maszk alakzatok egyesítése eggyé</translation>
     </message>
     <message>
+        <source>Convert to Polygon</source>
+        <translation>Átalakítás sokszöggé</translation>
+    </message>
+    <message>
+        <source>Convert the selected rectangles into editable polygons</source>
+        <translation>A kijelölt téglalapok átalakítása szerkeszthető sokszögekké</translation>
+    </message>
+    <message>
         <source>Delete Selected Vertex</source>
         <translation>Kijelölt csúcspont törlése</translation>
     </message>

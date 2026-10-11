@@ -534,6 +534,14 @@ Shapes</source>
         <translation>將選取的遮罩形狀合併為一個</translation>
     </message>
     <message>
+        <source>Convert to Polygon</source>
+        <translation>轉換為多邊形</translation>
+    </message>
+    <message>
+        <source>Convert the selected rectangles into editable polygons</source>
+        <translation>將所選矩形轉換為可編輯的多邊形</translation>
+    </message>
+    <message>
         <source>Delete Selected Vertex</source>
         <translation>刪除選取的頂點</translation>
     </message>

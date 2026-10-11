@@ -513,6 +513,14 @@ Shapes</source>
         <translation>Объединить выбранные фигуры-маски в одну</translation>
     </message>
     <message>
+        <source>Convert to Polygon</source>
+        <translation>Преобразовать в полигон</translation>
+    </message>
+    <message>
+        <source>Convert the selected rectangles into editable polygons</source>
+        <translation>Преобразовать выбранные прямоугольники в редактируемые полигоны</translation>
+    </message>
+    <message>
         <source>Delete Selected Vertex</source>
         <translation>Удалить выбранную вершину</translation>
     </message>

@@ -1,3 +1,5 @@
+from ._convert import can_convert_to_polygon
+from ._convert import convert_to_polygon
 from ._hit_testing import nearest_edge_index
 from ._hit_testing import nearest_rotation_point_index
 from ._hit_testing import nearest_vertex_index
@@ -27,7 +29,9 @@ __all__ = [
     "RECTANGLE_POINT_COUNT",
     "Shape",
     "ShapeType",
+    "can_convert_to_polygon",
     "can_merge_shapes",
+    "convert_to_polygon",
     "get_rotation_handle",
     "merge_masks",
     "nearest_edge_index",

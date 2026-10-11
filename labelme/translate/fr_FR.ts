@@ -534,6 +534,14 @@ les formes</translation>
         <translation>Fusionner les formes de masque sélectionnées en une seule</translation>
     </message>
     <message>
+        <source>Convert to Polygon</source>
+        <translation>Convertir en polygone</translation>
+    </message>
+    <message>
+        <source>Convert the selected rectangles into editable polygons</source>
+        <translation>Convertir les rectangles sélectionnés en polygones modifiables</translation>
+    </message>
+    <message>
         <source>Delete Selected Vertex</source>
         <translation>Supprimer le sommet sélectionné</translation>
     </message>

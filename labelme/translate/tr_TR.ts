@@ -534,6 +534,14 @@ Shapes</source>
         <translation>Seçili maske şekillerini tek şekilde birleştir</translation>
     </message>
     <message>
+        <source>Convert to Polygon</source>
+        <translation>Çokgene dönüştür</translation>
+    </message>
+    <message>
+        <source>Convert the selected rectangles into editable polygons</source>
+        <translation>Seçili dikdörtgenleri düzenlenebilir çokgenlere dönüştür</translation>
+    </message>
+    <message>
         <source>Delete Selected Vertex</source>
         <translation>Seçili Köşe Noktasını Sil</translation>
     </message>

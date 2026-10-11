@@ -376,6 +376,14 @@
         <translation>Об&apos;єднати вибрані фігури-маски в одну</translation>
     </message>
     <message>
+        <source>Convert to Polygon</source>
+        <translation>Перетворити на полігон</translation>
+    </message>
+    <message>
+        <source>Convert the selected rectangles into editable polygons</source>
+        <translation>Перетворити вибрані прямокутники на редаговані полігони</translation>
+    </message>
+    <message>
         <source>Undo last point</source>
         <translation>Скасувати останній пункт</translation>
     </message>

@@ -528,6 +528,14 @@ Shapes</source>
         <translation>Geselecteerde maskervormen samenvoegen tot één</translation>
     </message>
     <message>
+        <source>Convert to Polygon</source>
+        <translation>Omzetten naar polygoon</translation>
+    </message>
+    <message>
+        <source>Convert the selected rectangles into editable polygons</source>
+        <translation>Geselecteerde rechthoeken omzetten naar bewerkbare polygonen</translation>
+    </message>
+    <message>
         <source>Delete Selected Vertex</source>
         <translation>Geselecteerd hoekpunt verwijderen</translation>
     </message>

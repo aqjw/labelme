@@ -51,7 +51,9 @@ from ._save_request import write_save_request
 from ._save_writer import SaveWriter
 from ._shape import Shape
 from ._shape import ShapeType
+from ._shape import can_convert_to_polygon
 from ._shape import can_merge_shapes
+from ._shape import convert_to_polygon
 from ._shape import merge_masks
 from ._shape_clipboard import ShapeClipboard
 from ._shape_color import resolve_shape_color
@@ -161,6 +163,7 @@ class _Actions(NamedTuple):
     paste: QtGui.QAction
     duplicate: QtGui.QAction
     merge: QtGui.QAction
+    convert_to_polygon: QtGui.QAction
     undo_last_point: QtGui.QAction
     undo: QtGui.QAction
     add_point_to_edge: QtGui.QAction
@@ -556,6 +559,13 @@ class MainWindow(QtWidgets.QMainWindow):
             tip=self.tr("Merge the selected mask shapes into one"),
             enabled=False,
         )
+        convert_to_polygon = action(
+            text=self.tr("Convert to Polygon"),
+            slot=self._convert_selected_shapes_to_polygon,
+            icon="phosphor/polygon.svg",
+            tip=self.tr("Convert the selected rectangles into editable polygons"),
+            enabled=False,
+        )
         undo_last_point = action(
             text=self.tr("Undo last point"),
             slot=self._canvas_widgets.canvas.undo_last_point,
@@ -883,6 +893,7 @@ class MainWindow(QtWidgets.QMainWindow):
             delete,
             delete_all,
             merge,
+            convert_to_polygon,
             add_point_to_edge,
             remove_point,
         )
@@ -896,6 +907,7 @@ class MainWindow(QtWidgets.QMainWindow):
             delete,
             delete_all,
             merge,
+            convert_to_polygon,
             remove_point,
             separator(),
             *select_neighbor_actions,
@@ -921,6 +933,7 @@ class MainWindow(QtWidgets.QMainWindow):
             paste=paste,
             duplicate=duplicate,
             merge=merge,
+            convert_to_polygon=convert_to_polygon,
             undo_last_point=undo_last_point,
             undo=undo,
             remove_point=remove_point,
@@ -1673,6 +1686,13 @@ class MainWindow(QtWidgets.QMainWindow):
             not drawing
             and can_merge_shapes(self._canvas_widgets.canvas.selected_shapes)
         )
+        self._actions.convert_to_polygon.setEnabled(
+            not drawing
+            and any(
+                can_convert_to_polygon(s)
+                for s in self._canvas_widgets.canvas.selected_shapes
+            )
+        )
 
     def _switch_canvas_mode(self, *, edit: bool, create_mode: str | None) -> None:
         self._canvas_widgets.canvas.set_editing(value=edit, create_mode=create_mode)
@@ -1908,6 +1928,9 @@ class MainWindow(QtWidgets.QMainWindow):
         self._actions.delete.setEnabled(n_selected)
         self._actions.duplicate.setEnabled(n_selected)
         self._actions.merge.setEnabled(can_merge_shapes(selected_shapes))
+        self._actions.convert_to_polygon.setEnabled(
+            any(can_convert_to_polygon(s) for s in selected_shapes)
+        )
         self._actions.copy.setEnabled(n_selected)
         self._actions.edit.setEnabled(n_selected)
 
@@ -2101,6 +2124,21 @@ class MainWindow(QtWidgets.QMainWindow):
         ]
         self._commit_shapes(shapes)
         canvas.select_shapes(shapes=[merged])
+
+    def _convert_selected_shapes_to_polygon(self) -> None:
+        # Конвертируются только прямоугольники из выделения; полигон встаёт
+        # на место исходной фигуры, чтобы порядок в Label List не менялся.
+        canvas = self._canvas_widgets.canvas
+        converted = {
+            id(s): convert_to_polygon(s)
+            for s in canvas.selected_shapes
+            if can_convert_to_polygon(s)
+        }
+        if not converted:
+            return
+        selected = [converted.get(id(s), s) for s in canvas.selected_shapes]
+        self._commit_shapes([converted.get(id(s), s) for s in canvas.shapes])
+        canvas.select_shapes(shapes=selected)
 
     def _label_selection_changed(self) -> None:
         selected_shapes: list[Shape] = []

@@ -503,6 +503,14 @@
         <translation>Gabungkan bentuk mask terpilih menjadi satu</translation>
     </message>
     <message>
+        <source>Convert to Polygon</source>
+        <translation>Ubah menjadi Poligon</translation>
+    </message>
+    <message>
+        <source>Convert the selected rectangles into editable polygons</source>
+        <translation>Ubah persegi panjang terpilih menjadi poligon yang dapat diedit</translation>
+    </message>
+    <message>
         <source>Delete Selected Vertex</source>
         <translation>Hapus Simpul Terpilih</translation>
     </message>
